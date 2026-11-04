@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1400" height="920" viewBox="0 0 1400 920" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Dark Studio Vignette Gradient -->
+    <radialGradient id="studioVignette" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#1f2123" />
+      <stop offset="55%" stop-color="#171819" />
+      <stop offset="100%" stop-color="#0f1011" />
+    </radialGradient>
+
+    <!-- Olive Ambient Highlight -->
+    <radialGradient id="oliveRim" cx="72%" cy="28%" r="48%">
+      <stop offset="0%" stop-color="rgba(119, 121, 91, 0.28)" />
+      <stop offset="65%" stop-color="rgba(119, 121, 91, 0.04)" />
+      <stop offset="100%" stop-color="transparent" />
+    </radialGradient>
+
+    <!-- Warm Key Highlight -->
+    <radialGradient id="warmKey" cx="30%" cy="20%" r="52%">
+      <stop offset="0%" stop-color="rgba(255, 244, 222, 0.14)" />
+      <stop offset="55%" stop-color="rgba(255, 244, 222, 0.02)" />
+      <stop offset="100%" stop-color="transparent" />
+    </radialGradient>
+
+    <!-- Subtle Hairline Grid Pattern -->
+    <pattern id="precisionGrid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="60" y2="0" stroke="rgba(119, 121, 91, 0.06)" stroke-width="1" />
+      <line x1="0" y1="0" x2="0" y2="60" stroke="rgba(119, 121, 91, 0.06)" stroke-width="1" />
+    </pattern>
+  </defs>
+
+  <!-- Deep Glossy Black Background -->
+  <rect width="100%" height="100%" fill="url(#studioVignette)" />
+
+  <!-- Subtle Studio Grid -->
+  <rect width="100%" height="100%" fill="url(#precisionGrid)" opacity="0.65" />
+
+  <!-- Ambient Light Pools -->
+  <rect width="100%" height="100%" fill="url(#oliveRim)" />
+  <rect width="100%" height="100%" fill="url(#warmKey)" />
+
+  <!-- Geometric Architectural Calibration Rings -->
+  <g opacity="0.28">
+    <circle cx="700" cy="441.59999999999997" r="331.2" fill="none" stroke="#989B74" stroke-width="1" stroke-dasharray="4 8" />
+    <circle cx="700" cy="441.59999999999997" r="386.4" fill="none" stroke="#FFF4DE" stroke-width="0.75" />
+    <line x1="672" y1="441.59999999999997" x2="728" y2="441.59999999999997" stroke="#989B74" stroke-width="1" />
+    <line x1="700" y1="413.59999999999997" x2="700" y2="469.59999999999997" stroke="#989B74" stroke-width="1" />
+  </g>
+
+  <!-- Central Silhouette Composition -->
+  
+      <!-- Signature Transformation Comparative Silhouette -->
+      <g transform="translate(-224, 0)">
+        <path d="M 616 699.2
+                 C 588 533.5999999999999, 672 349.6, 784.0000000000001 276
+                 C 924 202.4, 1092 220.79999999999998, 1204 331.2
+                 C 1288 441.59999999999997, 1260 588.8000000000001, 1148 736
+                 L 1064 846.4000000000001
+                 L 672 846.4000000000001 Z"
+              fill="#121315" stroke="#989B74" stroke-width="2" stroke-opacity="0.4" />
+      </g>
+      <g transform="translate(224, 0)">
+        <path d="M 616 699.2
+                 C 588 533.5999999999999, 672 312.8, 812 239.20000000000002
+                 C 952.0000000000001 184, 1148 202.4, 1260 312.8
+                 C 1316 423.20000000000005, 1288 588.8000000000001, 1176 736
+                 L 1092 846.4000000000001
+                 L 700 846.4000000000001 Z"
+              fill="#151719" stroke="#989B74" stroke-width="2" stroke-opacity="0.6" />
+      </g>
+      <!-- Center transformation dividing hairline -->
+      <line x1="700" y1="165.6" x2="700" y2="772.8"
+            stroke="#989B74" stroke-width="1.5" stroke-dasharray="6 8" stroke-opacity="0.7" />
+    
+
+  <!-- Top Editorial Identification Overlay -->
+  <g transform="translate(36, 48)">
+    <text x="0" y="0" font-family="'Courier New', monospace" font-size="11" font-weight="600" fill="#989B74" letter-spacing="3.2">SANDY MEN'S SALON · RAJKOT</text>
+    <text x="0" y="24" font-family="'Outfit', 'Helvetica Neue', sans-serif" font-size="13" font-weight="700" fill="#F5F0E8" letter-spacing="2.6">TRANSFORMATIONS</text>
+  </g>
+
+  <!-- Bottom Architectural Frame Badge -->
+  <g transform="translate(36, 872)">
+    <rect x="-12" y="-32" width="1352" height="42" fill="rgba(23, 24, 25, 0.72)" stroke="rgba(119, 121, 91, 0.32)" stroke-width="1" rx="2" />
+    <text x="6" y="-12" font-family="'Outfit', 'Helvetica Neue', sans-serif" font-size="14" font-weight="700" fill="#FFF4DE" letter-spacing="1.5">06 — SIGNATURE TRANSFORMATION</text>
+    <text x="1320" y="-12" text-anchor="end" font-family="'Courier New', monospace" font-size="10" fill="#989B74" letter-spacing="2">35MM · 8K</text>
+  </g>
+
+  <!-- Outer Architectural Hairline Border -->
+  <rect x="12" y="12" width="1376" height="896" fill="none" stroke="rgba(119, 121, 91, 0.28)" stroke-width="1" />
+</svg>

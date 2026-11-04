@@ -1,0 +1,115 @@
+@import "tailwindcss";
+@import "lenis/dist/lenis.css";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    /* Centralized Design Tokens (Black × Mehndi Olive × Warm Ivory) */
+    --color-background: #171819;
+    --color-primary: #77795B;
+    --color-ivory: #E8DDC8;
+
+    /* Semantic Brand Constants */
+    --brand-black: #171819;
+    --brand-olive: #77795B;
+    --brand-ivory: #E8DDC8;
+
+    /* Derived Tonal Tokens */
+    --color-surface-dark: #151617;
+    --color-surface-card: #1c1d1f;
+    --color-surface-elevated: #222426;
+    --color-border-subtle: rgba(119, 121, 91, 0.25);
+    --color-border-ivory: rgba(232, 221, 200, 0.22);
+    --color-text-muted: #b8b2a2;
+
+    /* Legacy Compatibility Mappings */
+    --led-warm-white: #E8DDC8;
+    --led-soft-ivory: #E8DDC8;
+    --font-display: 'Outfit', sans-serif;
+    --font-sans: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-background);
+    color: var(--color-ivory);
+    overflow-x: hidden;
+  }
+}
+
+/* Crisp Luxury Dark Signboard Surface (#171819) */
+.signboard-surface {
+  background: linear-gradient(180deg, #151617 0%, #171819 50%, #141516 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(232, 221, 200, 0.05),
+    0 12px 32px rgba(0, 0, 0, 0.85);
+}
+
+/* Crisp Navigation Link Typography (Warm Ivory) */
+.nav-item-3d {
+  font-family: var(--font-display);
+  color: #E8DDC8;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.75);
+}
+
+.nav-item-3d:hover {
+  color: #FFFFFF;
+}
+
+.nav-item-3d-active {
+  font-family: var(--font-display);
+  color: #9ba074;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.75);
+}
+
+/* Crisp Olive Active Underline Bar (#77795B) */
+.olive-bar-3d {
+  background: #77795B;
+  box-shadow:
+    0 1px 0 #4a4c38,
+    0 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+/* Tactile 3D Mehndi Olive Green Appointment & Primary CTA Button */
+.olive-plaque-btn {
+  background: linear-gradient(180deg, #848766 0%, #77795B 60%, #686A4F 100%);
+  border: 1px solid rgba(232, 221, 200, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(232, 221, 200, 0.32),
+    -1.5px 2.5px 0 #464835,
+    -3px 6px 14px rgba(0, 0, 0, 0.75);
+}
+
+.olive-plaque-btn:hover {
+  background: linear-gradient(180deg, #8e916e 0%, #7e8061 60%, #6e7054 100%);
+  border-color: rgba(232, 221, 200, 0.42);
+  box-shadow:
+    inset 0 1px 0 rgba(232, 221, 200, 0.42),
+    -2px 3px 0 #464835,
+    -4px 8px 18px rgba(0, 0, 0, 0.85);
+}
+
+/* Razor-Crisp Bottom Warm Ivory LED Accent Line */
+.signboard-led-strip {
+  background: linear-gradient(
+    90deg,
+    rgba(232, 221, 200, 0.3) 0%,
+    #E8DDC8 20%,
+    #FFFFFF 50%,
+    #E8DDC8 80%,
+    rgba(232, 221, 200, 0.3) 100%
+  );
+  box-shadow:
+    0 0 8px rgba(232, 221, 200, 0.55),
+    0 2px 10px rgba(119, 121, 91, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1440" width="1024" height="1440">
+  <defs>
+    <!-- Matte Luxury Dark Background -->
+    <linearGradient id="backBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#191a1c"/>
+      <stop offset="50%" stop-color="#151617"/>
+      <stop offset="100%" stop-color="#101112"/>
+    </linearGradient>
+
+    <!-- Guilloche Security Pattern -->
+    <pattern id="secGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 40 M 0 0 L 40 40" fill="none" stroke="#77795B" stroke-width="0.75" stroke-opacity="0.14"/>
+    </pattern>
+  </defs>
+
+  <!-- CARD BASE SURFACE (#171819) -->
+  <rect width="1024" height="1440" rx="36" fill="url(#backBg)"/>
+
+  <!-- Subtle Security Pattern Field -->
+  <rect x="24" y="24" width="976" height="1392" rx="26" fill="url(#secGrid)"/>
+
+  <!-- OUTER ARCHITECTURAL BORDER (#77795B) -->
+  <rect x="24" y="24" width="976" height="1392" rx="26" fill="none" stroke="#77795B" stroke-width="3" stroke-opacity="0.55"/>
+  <rect x="36" y="36" width="952" height="1368" rx="20" fill="none" stroke="#E8DDC8" stroke-width="1" stroke-opacity="0.18"/>
+
+  <!-- TOP LANYARD CUTOUT SLOT (Matching Front) -->
+  <g transform="translate(512, 72)">
+    <rect x="-92" y="-18" width="184" height="36" rx="18" fill="#0d0e0f"/>
+    <rect x="-92" y="-18" width="184" height="36" rx="18" fill="none" stroke="#8e9196" stroke-width="4"/>
+    <rect x="-88" y="-14" width="176" height="28" rx="14" fill="#080809" stroke="#333538" stroke-width="2"/>
+    <circle cx="-112" cy="0" r="5" fill="#77795B"/>
+    <circle cx="112" cy="0" r="5" fill="#77795B"/>
+  </g>
+
+  <!-- TOP HEADER: SALON IDENTITY -->
+  <g transform="translate(512, 160)" text-anchor="middle">
+    <text x="0" y="0" fill="#9ba074" font-family="'Plus Jakarta Sans', sans-serif" font-size="14" font-weight="700" letter-spacing="4">BESPOKE MEN'S GROOMING LOUNGE</text>
+    <text x="0" y="44" fill="#E8DDC8" font-family="'Outfit', sans-serif" font-size="38" font-weight="800" letter-spacing="2">SANDY MEN'S SALON</text>
+    <line x1="-180" y1="64" x2="180" y2="64" stroke="#77795B" stroke-width="1.5" stroke-opacity="0.6"/>
+  </g>
+
+  <!-- CENTER CREST: PROMINENT SB EMBLEM WITH METALLIC RING -->
+  <g transform="translate(512, 420)">
+    <!-- Decorative Concentric Rings -->
+    <circle cx="0" cy="0" r="140" fill="#121314" stroke="#77795B" stroke-width="3" stroke-opacity="0.7"/>
+    <circle cx="0" cy="0" r="126" fill="none" stroke="#E8DDC8" stroke-width="1.5" stroke-opacity="0.25"/>
+    <circle cx="0" cy="0" r="112" fill="#171819" stroke="#77795B" stroke-width="2" stroke-dasharray="6,4"/>
+
+    <!-- Prominent Monogram -->
+    <rect x="-48" y="-48" width="96" height="96" rx="16" fill="#151617" stroke="#77795B" stroke-width="2.5"/>
+    <text x="0" y="16" fill="#E8DDC8" font-family="'Outfit', sans-serif" font-size="48" font-weight="800" text-anchor="middle" letter-spacing="-1">sb</text>
+
+    <!-- Surrounding Circular Microprint -->
+    <text x="0" y="80" fill="#9ba074" font-family="monospace" font-size="11" text-anchor="middle" letter-spacing="3">VERIFIED MASTER CRAFT</text>
+    <text x="0" y="-70" fill="#9ba074" font-family="monospace" font-size="11" text-anchor="middle" letter-spacing="3">RAJKOT · INDIA</text>
+  </g>
+
+  <!-- BARBER VERIFIED PROFILE BLOCK -->
+  <g transform="translate(512, 630)" text-anchor="middle">
+    <text x="0" y="0" fill="#E8DDC8" font-family="'Outfit', sans-serif" font-size="34" font-weight="700" letter-spacing="0.5">DEVANG RATHOD</text>
+    <text x="0" y="32" fill="#9ba074" font-family="'Plus Jakarta Sans', sans-serif" font-size="15" font-weight="600" letter-spacing="2">BEARD ARCHITECT & COLORIST</text>
+    <text x="0" y="60" fill="#E8DDC8" fill-opacity="0.5" font-family="monospace" font-size="13" letter-spacing="2">PASS ID: SMS-2026-03 · 9 YEARS CRAFT</text>
+  </g>
+
+  <!-- SPECIALTIES / MASTERIES LIST (3 Elegant Cards) -->
+  <g transform="translate(104, 750)">
+    <rect x="0" y="0" width="816" height="340" rx="16" fill="#121314" stroke="#77795B" stroke-width="1.5"/>
+
+    <text x="40" y="44" fill="#9ba074" font-family="'Outfit', sans-serif" font-size="14" font-weight="700" letter-spacing="3">CORE SPECIALTIES &amp; PROTOCOLS</text>
+
+    <!-- Specialty 1 -->
+    <g transform="translate(40, 80)">
+      <circle cx="12" cy="14" r="5" fill="#77795B"/>
+      <text x="32" y="20" fill="#E8DDC8" font-family="'Plus Jakarta Sans', sans-serif" font-size="18" font-weight="600">Razor Line Sculpting</text>
+      <text x="32" y="44" fill="#E8DDC8" fill-opacity="0.55" font-family="'Plus Jakarta Sans', sans-serif" font-size="13">Bespoke customized technique executing flawless geometry.</text>
+    </g>
+
+    <!-- Specialty 2 -->
+    <g transform="translate(40, 160)">
+      <circle cx="12" cy="14" r="5" fill="#77795B"/>
+      <text x="32" y="20" fill="#E8DDC8" font-family="'Plus Jakarta Sans', sans-serif" font-size="18" font-weight="600">Beard Tonal Blending & Dye</text>
+      <text x="32" y="44" fill="#E8DDC8" fill-opacity="0.55" font-family="'Plus Jakarta Sans', sans-serif" font-size="13">Artisanal razor precision with steam-distilled eucalyptus finish.</text>
+    </g>
+
+    <!-- Specialty 3 -->
+    <g transform="translate(40, 240)">
+      <circle cx="12" cy="14" r="5" fill="#77795B"/>
+      <text x="32" y="20" fill="#E8DDC8" font-family="'Plus Jakarta Sans', sans-serif" font-size="18" font-weight="600">Restorative Scalp Ritual</text>
+      <text x="32" y="44" fill="#E8DDC8" fill-opacity="0.55" font-family="'Plus Jakarta Sans', sans-serif" font-size="13">Tailored grooming consultation matching bone structure and profile.</text>
+    </g>
+  </g>
+
+  <!-- BOTTOM VERIFICATION QR / SECURITY STRIP -->
+  <g transform="translate(104, 1130)">
+    <rect x="0" y="0" width="816" height="110" rx="12" fill="#171819" stroke="#77795B" stroke-width="1.5"/>
+
+    <!-- Simulated Security QR Code Pattern -->
+    <g transform="translate(24, 18)" fill="#E8DDC8">
+      <rect x="0" y="0" width="74" height="74" fill="#0d0e0f"/>
+      <!-- QR Position markers -->
+      <rect x="6" y="6" width="22" height="22" fill="#9ba074"/>
+      <rect x="10" y="10" width="14" height="14" fill="#0d0e0f"/>
+      <rect x="46" y="6" width="22" height="22" fill="#9ba074"/>
+      <rect x="50" y="10" width="14" height="14" fill="#0d0e0f"/>
+      <rect x="6" y="46" width="22" height="22" fill="#9ba074"/>
+      <rect x="10" y="50" width="14" height="14" fill="#0d0e0f"/>
+      <!-- Random QR blocks -->
+      <rect x="32" y="12" width="6" height="6"/>
+      <rect x="32" y="24" width="8" height="6"/>
+      <rect x="14" y="32" width="6" height="8"/>
+      <rect x="36" y="36" width="8" height="8"/>
+      <rect x="52" y="32" width="10" height="6"/>
+      <rect x="32" y="48" width="6" height="10"/>
+      <rect x="44" y="52" width="12" height="6"/>
+      <rect x="62" y="56" width="6" height="10"/>
+    </g>
+
+    <!-- Security Text & Verification Code -->
+    <g transform="translate(124, 34)">
+      <text x="0" y="0" fill="#E8DDC8" font-family="'Outfit', sans-serif" font-size="15" font-weight="700" letter-spacing="1.5">AUTHENTICATED DIGITAL STAFF CREDENTIAL</text>
+      <text x="0" y="24" fill="#9ba074" font-family="monospace" font-size="12" letter-spacing="2">HASH: 9A8F-4B2E-SMS-RAJKOT-VERIFIED</text>
+      <text x="0" y="44" fill="#E8DDC8" fill-opacity="0.45" font-family="'Plus Jakarta Sans', sans-serif" font-size="11">Scan via internal terminal to verify current shift and appointments.</text>
+    </g>
+  </g>
+
+  <!-- FOOTER PLEDGE STATEMENT -->
+  <g transform="translate(512, 1330)" text-anchor="middle">
+    <text x="0" y="0" fill="#E8DDC8" font-family="'Outfit', sans-serif" font-size="18" font-weight="800" letter-spacing="3">"NOT JUST A CUT. A STATEMENT."</text>
+    <text x="0" y="26" fill="#9ba074" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="600" letter-spacing="2.5">SANDY MEN'S SALON · RAJKOT · EST. 2021</text>
+  </g>
+</svg>

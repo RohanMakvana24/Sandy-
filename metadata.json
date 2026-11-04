@@ -1,0 +1,6 @@
+{
+  "name": "Sandy Men's Salon — Luxury 3D Architectural Navigation",
+  "description": "A realistic 3D illuminated architectural storefront navigation bar for Sandy Men's Salon, a luxury men's grooming salon in Rajkot, India.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

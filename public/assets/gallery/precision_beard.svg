@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Dark Studio Vignette Gradient -->
+    <radialGradient id="studioVignette" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#1f2123" />
+      <stop offset="55%" stop-color="#171819" />
+      <stop offset="100%" stop-color="#0f1011" />
+    </radialGradient>
+
+    <!-- Olive Ambient Highlight -->
+    <radialGradient id="oliveRim" cx="72%" cy="28%" r="48%">
+      <stop offset="0%" stop-color="rgba(119, 121, 91, 0.28)" />
+      <stop offset="65%" stop-color="rgba(119, 121, 91, 0.04)" />
+      <stop offset="100%" stop-color="transparent" />
+    </radialGradient>
+
+    <!-- Warm Key Highlight -->
+    <radialGradient id="warmKey" cx="30%" cy="20%" r="52%">
+      <stop offset="0%" stop-color="rgba(255, 244, 222, 0.14)" />
+      <stop offset="55%" stop-color="rgba(255, 244, 222, 0.02)" />
+      <stop offset="100%" stop-color="transparent" />
+    </radialGradient>
+
+    <!-- Subtle Hairline Grid Pattern -->
+    <pattern id="precisionGrid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="60" y2="0" stroke="rgba(119, 121, 91, 0.06)" stroke-width="1" />
+      <line x1="0" y1="0" x2="0" y2="60" stroke="rgba(119, 121, 91, 0.06)" stroke-width="1" />
+    </pattern>
+  </defs>
+
+  <!-- Deep Glossy Black Background -->
+  <rect width="100%" height="100%" fill="url(#studioVignette)" />
+
+  <!-- Subtle Studio Grid -->
+  <rect width="100%" height="100%" fill="url(#precisionGrid)" opacity="0.65" />
+
+  <!-- Ambient Light Pools -->
+  <rect width="100%" height="100%" fill="url(#oliveRim)" />
+  <rect width="100%" height="100%" fill="url(#warmKey)" />
+
+  <!-- Geometric Architectural Calibration Rings -->
+  <g opacity="0.28">
+    <circle cx="600" cy="384" r="288" fill="none" stroke="#989B74" stroke-width="1" stroke-dasharray="4 8" />
+    <circle cx="600" cy="384" r="336" fill="none" stroke="#FFF4DE" stroke-width="0.75" />
+    <line x1="572" y1="384" x2="628" y2="384" stroke="#989B74" stroke-width="1" />
+    <line x1="600" y1="356" x2="600" y2="412" stroke="#989B74" stroke-width="1" />
+  </g>
+
+  <!-- Central Silhouette Composition -->
+  
+      <!-- Precision Beard & Jawline Sculpting Profile -->
+      <path d="M 384 544
+               C 432 384, 552 272, 696 256
+               C 840 272, 936 368, 983.9999999999999 496
+               C 1008 608, 888 688, 720 720
+               C 576 736, 456 672, 384 544 Z"
+            fill="#121315" stroke="#989B74" stroke-width="2" stroke-opacity="0.4" />
+      <!-- Razor sharp cheek line -->
+      <path d="M 528 432 Q 648 480 792 512"
+            fill="none" stroke="#FFF4DE" stroke-width="3" stroke-linecap="round" stroke-opacity="0.8" />
+      <path d="M 480 544 Q 672.0000000000001 624 864 576"
+            fill="none" stroke="#989B74" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.75" />
+    
+
+  <!-- Top Editorial Identification Overlay -->
+  <g transform="translate(36, 48)">
+    <text x="0" y="0" font-family="'Courier New', monospace" font-size="11" font-weight="600" fill="#989B74" letter-spacing="3.2">SANDY MEN'S SALON · RAJKOT</text>
+    <text x="0" y="24" font-family="'Outfit', 'Helvetica Neue', sans-serif" font-size="13" font-weight="700" fill="#F5F0E8" letter-spacing="2.6">BEARD GROOMING</text>
+  </g>
+
+  <!-- Bottom Architectural Frame Badge -->
+  <g transform="translate(36, 752)">
+    <rect x="-12" y="-32" width="1152" height="42" fill="rgba(23, 24, 25, 0.72)" stroke="rgba(119, 121, 91, 0.32)" stroke-width="1" rx="2" />
+    <text x="6" y="-12" font-family="'Outfit', 'Helvetica Neue', sans-serif" font-size="14" font-weight="700" fill="#FFF4DE" letter-spacing="1.5">04 — PRECISION BEARD STYLING</text>
+    <text x="1120" y="-12" text-anchor="end" font-family="'Courier New', monospace" font-size="10" fill="#989B74" letter-spacing="2">35MM · 8K</text>
+  </g>
+
+  <!-- Outer Architectural Hairline Border -->
+  <rect x="12" y="12" width="1176" height="776" fill="none" stroke="rgba(119, 121, 91, 0.28)" stroke-width="1" />
+</svg>

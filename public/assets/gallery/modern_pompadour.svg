@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="1120" viewBox="0 0 800 1120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Dark Studio Vignette Gradient -->
+    <radialGradient id="studioVignette" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#1f2123" />
+      <stop offset="55%" stop-color="#171819" />
+      <stop offset="100%" stop-color="#0f1011" />
+    </radialGradient>
+
+    <!-- Olive Ambient Highlight -->
+    <radialGradient id="oliveRim" cx="72%" cy="28%" r="48%">
+      <stop offset="0%" stop-color="rgba(119, 121, 91, 0.28)" />
+      <stop offset="65%" stop-color="rgba(119, 121, 91, 0.04)" />
+      <stop offset="100%" stop-color="transparent" />
+    </radialGradient>
+
+    <!-- Warm Key Highlight -->
+    <radialGradient id="warmKey" cx="30%" cy="20%" r="52%">
+      <stop offset="0%" stop-color="rgba(255, 244, 222, 0.14)" />
+      <stop offset="55%" stop-color="rgba(255, 244, 222, 0.02)" />
+      <stop offset="100%" stop-color="transparent" />
+    </radialGradient>
+
+    <!-- Subtle Hairline Grid Pattern -->
+    <pattern id="precisionGrid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="60" y2="0" stroke="rgba(119, 121, 91, 0.06)" stroke-width="1" />
+      <line x1="0" y1="0" x2="0" y2="60" stroke="rgba(119, 121, 91, 0.06)" stroke-width="1" />
+    </pattern>
+  </defs>
+
+  <!-- Deep Glossy Black Background -->
+  <rect width="100%" height="100%" fill="url(#studioVignette)" />
+
+  <!-- Subtle Studio Grid -->
+  <rect width="100%" height="100%" fill="url(#precisionGrid)" opacity="0.65" />
+
+  <!-- Ambient Light Pools -->
+  <rect width="100%" height="100%" fill="url(#oliveRim)" />
+  <rect width="100%" height="100%" fill="url(#warmKey)" />
+
+  <!-- Geometric Architectural Calibration Rings -->
+  <g opacity="0.28">
+    <circle cx="400" cy="537.6" r="288" fill="none" stroke="#77795B" stroke-width="1" stroke-dasharray="4 8" />
+    <circle cx="400" cy="537.6" r="336" fill="none" stroke="#FFF4DE" stroke-width="0.75" />
+    <line x1="372" y1="537.6" x2="428" y2="537.6" stroke="#989B74" stroke-width="1" />
+    <line x1="400" y1="509.6" x2="400" y2="565.6" stroke="#989B74" stroke-width="1" />
+  </g>
+
+  <!-- Central Silhouette Composition -->
+  
+      <!-- Modern Architectural Pompadour Silhouette -->
+      <path d="M 240 851.2
+               C 224.00000000000003 672, 272 470.4, 304 336
+               C 336 201.6, 480 179.20000000000002, 592 291.2
+               C 656 403.2, 640 649.5999999999999, 592 851.2
+               L 528 1030.4
+               L 272 1030.4 Z"
+            fill="#121315" stroke="#77795B" stroke-width="2" stroke-opacity="0.4" />
+      <!-- High volume sweeping waves -->
+      <path d="M 320 313.6 Q 448.00000000000006 201.6 560 313.6"
+            fill="none" stroke="#FFF4DE" stroke-width="3" stroke-linecap="round" stroke-opacity="0.75" />
+      <path d="M 336 392 Q 463.99999999999994 291.2 576 403.2"
+            fill="none" stroke="#989B74" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.7" />
+    
+
+  <!-- Top Editorial Identification Overlay -->
+  <g transform="translate(36, 48)">
+    <text x="0" y="0" font-family="'Courier New', monospace" font-size="11" font-weight="600" fill="#989B74" letter-spacing="3.2">SANDY MEN'S SALON · RAJKOT</text>
+    <text x="0" y="24" font-family="'Outfit', 'Helvetica Neue', sans-serif" font-size="13" font-weight="700" fill="#F5F0E8" letter-spacing="2.6">HAIR STYLING</text>
+  </g>
+
+  <!-- Bottom Architectural Frame Badge -->
+  <g transform="translate(36, 1072)">
+    <rect x="-12" y="-32" width="752" height="42" fill="rgba(23, 24, 25, 0.72)" stroke="rgba(119, 121, 91, 0.32)" stroke-width="1" rx="2" />
+    <text x="6" y="-12" font-family="'Outfit', 'Helvetica Neue', sans-serif" font-size="14" font-weight="700" fill="#FFF4DE" letter-spacing="1.5">03 — MODERN POMPADOUR</text>
+    <text x="720" y="-12" text-anchor="end" font-family="'Courier New', monospace" font-size="10" fill="#989B74" letter-spacing="2">35MM · 8K</text>
+  </g>
+
+  <!-- Outer Architectural Hairline Border -->
+  <rect x="12" y="12" width="776" height="1096" fill="none" stroke="rgba(119, 121, 91, 0.28)" stroke-width="1" />
+</svg>
