@@ -41,6 +41,7 @@ test('FOOTER_NAV_LINKS contains all real existing website section links in order
     'difference',
     'gallery',
     'testimonials',
+    'wedding',
     'booking',
     'contact',
   ]);

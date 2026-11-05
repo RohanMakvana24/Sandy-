@@ -126,6 +126,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
           '-=0.75'
         );
 
+      ScrollTrigger.create({
         trigger: sectionEl,
         start: 'top bottom',
         end: 'bottom top',

@@ -88,8 +88,8 @@ export const IlluminatedLogo: React.FC<IlluminatedLogoProps> = ({
         aria-hidden="true"
         className={`overflow-visible transition-all duration-500 ${
           compact
-            ? 'h-[36px] sm:h-[54px] lg:h-[64px] w-auto'
-            : 'h-[40px] sm:h-[58px] lg:h-[72px] w-auto'
+            ? 'h-[32px] sm:h-[42px] lg:h-[48px] w-auto'
+            : 'h-[34px] sm:h-[46px] lg:h-[54px] w-auto'
         } ${ledReady ? 'opacity-100' : 'opacity-50'}`}
       >
         <defs>

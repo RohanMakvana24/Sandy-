@@ -1,0 +1,35 @@
+{
+  "tool": "Built-in image_gen",
+  "assets": [
+    {
+      "name": "textured_crop",
+      "source": "C:\\Users\\Hp\\.codex\\generated_images\\01a1a76b-e3a1-7850-b1f0-28958ecc6eaa\\exec-4ba9cbb6-8f14-4010-9776-2bfa0b6bb3a7.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: Sandy men's salon website gallery photograph. Portrait 3:4 close editorial photograph of fictional adult Indian male, textured crop haircut with blunt forward fringe, micro-scissor texture, mid-drop fade, three-quarter side view. Dark charcoal luxury barber studio background, restrained muted olive surroundings, warm ivory soft directional studio light, natural medium brown skin with realistic pores, premium magazine photography, sharp detailed hair, believable anatomy, understated black barber cape. Hair fully visible, head and shoulders composition with generous crop margin. Real photographic appearance, not illustration or 3D. No text, logo, watermark, collage, frame, or bright colored accents. These are AI style inspirations, not documentary photographs of actual salon clients."
+    },
+    {
+      "name": "classic_taper",
+      "source": "C:\\Users\\Hp\\.codex\\generated_images\\01a1a76b-e3a1-7850-b1f0-28958ecc6eaa\\exec-5ffafae6-8e20-46dd-b84a-52a7ece4049b.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: Sandy men's salon website gallery photograph. Portrait 4:5 close editorial photograph of fictional adult Indian male, immaculate classic taper fade seamlessly blended at temple and tailored neckline, rear three-quarter side profile, short dark hair. Dark charcoal luxury barber studio background, restrained muted olive surroundings, warm ivory soft directional studio light, natural medium brown skin with realistic pores, premium magazine photography, sharp detailed hair, believable anatomy, understated black barber cape. Hair fully visible, head and shoulders composition with generous crop margin. Real photographic appearance, not illustration or 3D. No text, logo, watermark, collage, frame, or bright colored accents. These are AI style inspirations, not documentary photographs of actual salon clients."
+    },
+    {
+      "name": "modern_pompadour",
+      "source": "C:\\Users\\Hp\\.codex\\generated_images\\01a1a76b-e3a1-7850-b1f0-28958ecc6eaa\\exec-d7fb71ee-550c-4412-8a34-c48f43e1d740.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: Sandy men's salon website gallery photograph. Portrait 3:4 close editorial photograph of fictional adult Indian male, modern pompadour, high-volume architectural swept dark hair, matte finish and disconnected side part, side profile. Dark charcoal luxury barber studio background, restrained muted olive surroundings, warm ivory soft directional studio light, natural medium brown skin with realistic pores, premium magazine photography, sharp detailed hair, believable anatomy, understated black barber cape. Hair fully visible, head and shoulders composition with generous crop margin. Real photographic appearance, not illustration or 3D. No text, logo, watermark, collage, frame, or bright colored accents. These are AI style inspirations, not documentary photographs of actual salon clients."
+    },
+    {
+      "name": "precision_beard",
+      "source": "C:\\Users\\Hp\\.codex\\generated_images\\01a1a76b-e3a1-7850-b1f0-28958ecc6eaa\\exec-a60a9137-2ab3-4f3b-943e-64baab9f3629.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: Sandy men's salon website gallery photograph. Landscape 16:10 close editorial photograph of fictional adult Indian male with thick precision-sculpted beard, razor-defined cheek line, contoured jawline gradation, side profile showing authentic individual beard hairs. Dark charcoal luxury barber studio background, restrained muted olive surroundings, warm ivory soft directional studio light, natural medium brown skin with realistic pores, premium magazine photography, sharp detailed hair, believable anatomy, understated black barber cape. Hair fully visible, head and shoulders composition with generous crop margin. Real photographic appearance, not illustration or 3D. No text, logo, watermark, collage, frame, or bright colored accents. These are AI style inspirations, not documentary photographs of actual salon clients."
+    },
+    {
+      "name": "contemporary_styling",
+      "source": "C:\\Users\\Hp\\.codex\\generated_images\\01a1a76b-e3a1-7850-b1f0-28958ecc6eaa\\exec-089b15c4-d970-4790-bbf7-8be979d06d23.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: Sandy men's salon website gallery photograph. Portrait 4:5 close editorial photograph of fictional adult Indian male, medium-length naturally wavy layered dark hair, effortless organic texture and scissor-shaped flow, three-quarter profile. Dark charcoal luxury barber studio background, restrained muted olive surroundings, warm ivory soft directional studio light, natural medium brown skin with realistic pores, premium magazine photography, sharp detailed hair, believable anatomy, understated black barber cape. Hair fully visible, head and shoulders composition with generous crop margin. Real photographic appearance, not illustration or 3D. No text, logo, watermark, collage, frame, or bright colored accents. These are AI style inspirations, not documentary photographs of actual salon clients."
+    },
+    {
+      "name": "signature_transformation",
+      "source": "C:\\Users\\Hp\\.codex\\generated_images\\01a1a76b-e3a1-7850-b1f0-28958ecc6eaa\\exec-b2974995-930f-45b7-bcd0-15250def6d31.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: Sandy men's salon website gallery photograph. Wide landscape 16:9 luxury grooming campaign portrait of fictional adult Indian male with bespoke tailored haircut, refined textured quiff and precisely trimmed full beard, three-quarter profile. Single finished look, no before and after. Dark charcoal luxury barber studio background, restrained muted olive surroundings, warm ivory soft directional studio light, natural medium brown skin with realistic pores, premium magazine photography, sharp detailed hair, believable anatomy, understated black barber cape. Hair fully visible, head and shoulders composition with generous crop margin. Real photographic appearance, not illustration or 3D. No text, logo, watermark, collage, frame, or bright colored accents. These are AI style inspirations, not documentary photographs of actual salon clients."
+    }
+  ]
+}

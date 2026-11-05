@@ -34,10 +34,14 @@ test('Phase 7 copy matches exact specification without exaggerated claims', () =
   );
 });
 
-test('DEFAULT_TESTIMONIALS contains editable, valid items with verified ratings and zero fabricated counts', () => {
-  assert.ok(DEFAULT_TESTIMONIALS.length >= 3, 'Must have at least 3 reviews');
+test('default design preview contains 50 distinct, explicitly marked sample reviews', () => {
+  assert.equal(DEFAULT_TESTIMONIALS.length, 50);
+  assert.equal(new Set(DEFAULT_TESTIMONIALS.map(item => item.id)).size, 50);
+  assert.equal(new Set(DEFAULT_TESTIMONIALS.map(item => item.quote)).size, 50);
 
   DEFAULT_TESTIMONIALS.forEach((item) => {
+    assert.equal(item.source, 'Sample Review');
+    assert.equal(item.dateLabel, 'Design preview');
     assert.ok(item.quote.length > 20, 'Quote must be meaningful');
     assert.ok(item.clientName.length > 0, 'Must have client attribution');
     assert.ok(

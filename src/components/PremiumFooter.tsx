@@ -124,7 +124,7 @@ export const PremiumFooter: React.FC<PremiumFooterProps> = ({ onNavigate }) => {
         {/* Upper Navigation, Brand Philosophy & Social Rows */}
         <FooterNavigation onNavigate={onNavigate} />
 
-        {/* Section 11: Signature Oversized Editorial Brand Typography ("SANDY.") */}
+        {/* Full salon name in the editorial brand signature */}
         <div className="relative w-full overflow-hidden py-10 sm:py-16 lg:py-20 flex items-center justify-center border-b border-[#77795B]/20">
           {/* Subtle Ambient LED Backlight behind letters */}
           <div
@@ -137,9 +137,10 @@ export const PremiumFooter: React.FC<PremiumFooterProps> = ({ onNavigate }) => {
           <div
             data-footer-reveal="oversized-brand"
             className="w-full text-center tracking-tighter"
+            aria-label="Sandy Men's Salon"
           >
             <span
-              className="inline-block text-[18vw] sm:text-[19vw] lg:text-[20vw] leading-[0.8] font-bold text-transparent bg-clip-text select-none"
+              className="inline-block text-[clamp(4rem,20vw,17rem)] leading-[0.85] font-bold text-transparent bg-clip-text select-none"
               style={{
                 fontFamily: 'var(--font-display)',
                 backgroundImage:
@@ -148,7 +149,13 @@ export const PremiumFooter: React.FC<PremiumFooterProps> = ({ onNavigate }) => {
                 WebkitTextStroke: '1px rgba(232, 221, 200, 0.18)',
               }}
             >
-              {LOCATION_SECTION_COPY.oversizedBrandText}
+              {LOCATION_SECTION_COPY.oversizedBrandText.replace(/\.$/, '')}
+            </span>
+            <span
+              className="block mt-5 sm:mt-8 text-[clamp(1.25rem,4.5vw,4rem)] leading-tight font-medium tracking-[0.2em] text-[#E8DDC8]"
+              style={{ fontFamily: 'var(--font-display)' }}
+            >
+              MEN&apos;S SALON
             </span>
           </div>
         </div>

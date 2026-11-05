@@ -127,4 +127,4 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = React.memo(({
       </div>
     </div>
   );
-};
+});

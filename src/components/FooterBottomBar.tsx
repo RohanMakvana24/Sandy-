@@ -7,7 +7,7 @@ export const FooterBottomBar: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   const handleScrollTop = () => {
-    scrollToTarget(0, { offset: 0, duration: 1.2 });
+    scrollToTarget(document.documentElement, { offset: 0, duration: 1.2 });
   };
 
   return (

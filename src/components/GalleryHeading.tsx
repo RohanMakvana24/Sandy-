@@ -15,7 +15,7 @@ export const GalleryHeading: React.FC<GalleryHeadingProps> = ({
   description = GALLERY_SECTION_COPY.supportingDescription,
 }) => {
   return (
-    <header className="mb-14 sm:mb-20 lg:mb-24">
+    <header className="portfolio-heading">
       <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 sm:gap-12">
         <div className="max-w-4xl">
           {/* Eyebrow Label */}
@@ -39,7 +39,7 @@ export const GalleryHeading: React.FC<GalleryHeadingProps> = ({
           <h2
             data-testid="gallery-headline"
             className="font-extrabold uppercase tracking-[-0.038em] leading-[0.93] text-[#E8DDC8]"
-            style={{ fontSize: 'clamp(2.5rem, 6.2vw, 5.6rem)' }}
+            style={{ fontSize: 'clamp(2.6rem, 6.2vw, 5.6rem)', fontFamily: 'var(--font-display)' }}
           >
             <span className="block overflow-hidden pb-1 sm:pb-2">
               <span
@@ -64,9 +64,9 @@ export const GalleryHeading: React.FC<GalleryHeadingProps> = ({
         <p
           data-gallery-reveal="description"
           data-testid="gallery-supporting-description"
-          className="max-w-md text-base sm:text-lg lg:text-xl font-normal leading-[1.65] text-[#E8DDC8]/78 lg:pb-3"
+          className="max-w-[280px] text-sm sm:text-base font-normal leading-[1.8] text-[#E8DDC8]/60 lg:pb-3"
         >
-          &ldquo;{description}&rdquo;
+          {description}
         </p>
       </div>
     </header>

@@ -764,6 +764,7 @@ const Lanyard = ({
     try {
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     } catch {
+      container.dispatchEvent(new Event('lanyard-error', { bubbles: true }));
       return undefined;
     }
     renderer.setClearColor(0x000000, 0);
@@ -774,13 +775,15 @@ const Lanyard = ({
     canvas.className = 'lanyard-canvas';
     canvas.setAttribute('aria-hidden', 'true');
     container.appendChild(canvas);
+    const onContextLost = () => container.dispatchEvent(new Event('lanyard-error', { bubbles: true }));
+    canvas.addEventListener('webglcontextlost', onContextLost);
 
     const anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
     const scene = new THREE.Scene();
     const environment = buildEnvironment(renderer);
     scene.environment = environment.texture;
     const camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 200);
-    const keyLight = new THREE.DirectionalLight(0xffffff, 1.6);
+    const keyLight = new THREE.DirectionalLight('#E8DDC8', 1.6);
     keyLight.position.set(-2.5, 4, 6);
     const fillLight = new THREE.DirectionalLight(0xffffff, 0.35);
     fillLight.position.set(3, -1, 4);
@@ -1130,7 +1133,7 @@ const Lanyard = ({
 
     const tick = now => {
       raf = 0;
-      if (!alive) return;
+      if (!alive || !visible || document.hidden) return;
       const dt = Math.min(1 / 30, Math.max(1 / 240, (now - last) / 1000));
       last = now;
       time += dt;
@@ -1147,7 +1150,7 @@ const Lanyard = ({
     };
 
     const start = () => {
-      if (raf || !visible || !alive) return;
+      if (raf || !visible || !alive || document.hidden) return;
       sim.calm = 0;
       last = performance.now();
       raf = requestAnimationFrame(tick);
@@ -1230,23 +1233,16 @@ const Lanyard = ({
       start();
     };
 
-    const onTouchStart = event => {
-      if (!settingsRef.current.interactive || event.touches.length !== 1) return;
-      toPointer(event.touches[0]);
-      if (pickCard()) event.preventDefault();
-    };
-
     canvas.addEventListener('pointerdown', onPointerDown);
     canvas.addEventListener('pointermove', onPointerMove);
     canvas.addEventListener('pointerup', onPointerUp);
     canvas.addEventListener('pointercancel', onPointerUp);
     canvas.addEventListener('lostpointercapture', onPointerUp);
-    canvas.addEventListener('touchstart', onTouchStart, { passive: false });
 
     const resize = () => {
       view.width = Math.max(1, container.clientWidth);
       view.height = Math.max(1, container.clientHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
       renderer.setSize(view.width, view.height, false);
       apply();
       render();
@@ -1257,10 +1253,12 @@ const Lanyard = ({
     const intersectionObserver = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
       if (visible) start();
+      else { cancelAnimationFrame(raf); raf = 0; }
     });
     intersectionObserver.observe(container);
     const onVisibility = () => {
       if (!document.hidden) start();
+      else { cancelAnimationFrame(raf); raf = 0; }
     };
     document.addEventListener('visibilitychange', onVisibility);
 
@@ -1279,12 +1277,13 @@ const Lanyard = ({
       canvas.removeEventListener('pointerup', onPointerUp);
       canvas.removeEventListener('pointercancel', onPointerUp);
       canvas.removeEventListener('lostpointercapture', onPointerUp);
-      canvas.removeEventListener('touchstart', onTouchStart);
+      canvas.removeEventListener('webglcontextlost', onContextLost);
       [bodyMesh, frontMesh, backMesh, ring, clampMesh, eyelet, band].forEach(mesh => mesh.geometry?.dispose());
       [frontMaterial, backMaterial, edgeMaterial, metalMaterial, bandMaterial].forEach(material => material.dispose());
       [frontTexture, backTexture, strapTexture, grain, weave].forEach(texture => texture.dispose());
       environment.dispose();
       renderer.dispose();
+      renderer.forceContextLoss();
       if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
     };
   }, []);

@@ -10,8 +10,11 @@ import { AboutExperience } from './components/AboutExperience';
 import { ServicesSection } from './components/ServicesSection';
 import { WhyChooseSandy } from './components/WhyChooseSandy';
 import { PortfolioGallery } from './components/PortfolioGallery';
+import { OurBarbers } from './components/OurBarbers';
+import { ProductsShowroomSection } from './components/ProductsShowroomSection';
 import { TestimonialsSection } from './components/TestimonialsSection';
 import { BookingSection } from './components/BookingSection';
+import { WeddingGrooming } from './components/WeddingGrooming';
 import { AppointmentModal } from './components/AppointmentModal';
 
 import { ContactLocationSection } from './components/ContactLocationSection';
@@ -42,7 +45,8 @@ export default function App() {
 
   const handleSelectNav = (id: string) => {
     setActiveNavId(id);
-    scrollToTarget(id, { offset: -84 });
+    const target = document.getElementById(id);
+    if (target) scrollToTarget(target, { offset: -84 });
   };
 
   const handleExploreServices = () => {
@@ -93,6 +97,8 @@ export default function App() {
 
         {/* Section 06: Our Work — The Art of Transformation Portfolio Gallery */}
         <PortfolioGallery />
+        <OurBarbers />
+        <ProductsShowroomSection />
 
         {/* Section 07: Client Stories — Voices of Confidence Testimonials */}
         <TestimonialsSection
@@ -100,6 +106,7 @@ export default function App() {
         />
 
         {/* Section 08: The Private Booking Experience — Luxury Interactive Appointment System */}
+        <WeddingGrooming />
         <BookingSection />
 
         {/* Section 09: Contact & Location Experience */}

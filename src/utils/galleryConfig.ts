@@ -62,7 +62,7 @@ export const DEFAULT_PORTFOLIO_ITEMS: readonly GalleryPortfolioItem[] = [
     categoryLabel: 'HAIRCUTS / FADES',
     description:
       'Blunt forward fringe with micro-scissor point texture and mid-drop fade.',
-    imageUrl: '/assets/gallery/textured_crop.svg',
+    imageUrl: '/assets/gallery/textured_crop.webp',
     aspectRatioClass: 'aspect-[3/4]',
     colSpanClass: 'lg:col-span-7',
     craftTag: 'TEXTURE & LOW BLEND',
@@ -77,7 +77,7 @@ export const DEFAULT_PORTFOLIO_ITEMS: readonly GalleryPortfolioItem[] = [
     categoryLabel: 'FADE STYLES',
     description:
       'Low-compression temple taper blended seamlessly into tailored neckline.',
-    imageUrl: '/assets/gallery/classic_taper.svg',
+    imageUrl: '/assets/gallery/classic_taper.webp',
     aspectRatioClass: 'aspect-[4/5]',
     colSpanClass: 'lg:col-span-5',
     craftTag: 'TEMPLE COMPRESSION',
@@ -92,7 +92,7 @@ export const DEFAULT_PORTFOLIO_ITEMS: readonly GalleryPortfolioItem[] = [
     categoryLabel: 'HAIR STYLING',
     description:
       'High-volume architectural sweep with matte clay finish and disconnected side part.',
-    imageUrl: '/assets/gallery/modern_pompadour.svg',
+    imageUrl: '/assets/gallery/modern_pompadour.webp',
     aspectRatioClass: 'aspect-[3/4]',
     colSpanClass: 'lg:col-span-5',
     craftTag: 'MATTE ARCHITECTURE',
@@ -107,7 +107,7 @@ export const DEFAULT_PORTFOLIO_ITEMS: readonly GalleryPortfolioItem[] = [
     categoryLabel: 'BEARD GROOMING',
     description:
       'Razor-defined cheek line, contoured jawline gradation, and botanical oil treatment.',
-    imageUrl: '/assets/gallery/precision_beard.svg',
+    imageUrl: '/assets/gallery/precision_beard.webp',
     aspectRatioClass: 'aspect-[16/10]',
     colSpanClass: 'lg:col-span-7',
     craftTag: 'RAZOR SCULPTURE',
@@ -122,7 +122,7 @@ export const DEFAULT_PORTFOLIO_ITEMS: readonly GalleryPortfolioItem[] = [
     categoryLabel: 'HAIR STYLING',
     description:
       'Natural flow scissor sculpture styled with sea salt mist and diffuser airflow.',
-    imageUrl: '/assets/gallery/contemporary_styling.svg',
+    imageUrl: '/assets/gallery/contemporary_styling.webp',
     aspectRatioClass: 'aspect-[4/5]',
     colSpanClass: 'lg:col-span-5',
     craftTag: 'DIFFUSED NATURAL FLOW',
@@ -137,7 +137,7 @@ export const DEFAULT_PORTFOLIO_ITEMS: readonly GalleryPortfolioItem[] = [
     categoryLabel: 'TRANSFORMATIONS',
     description:
       'Complete bespoke redesign tailored to facial geometry, density, and lifestyle.',
-    imageUrl: '/assets/gallery/signature_transformation.svg',
+    imageUrl: '/assets/gallery/signature_transformation.webp',
     aspectRatioClass: 'aspect-[16/9]',
     colSpanClass: 'lg:col-span-12',
     craftTag: 'BESPOKE REDESIGN',

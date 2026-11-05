@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
@@ -12,6 +12,7 @@ import { GalleryFilters } from './GalleryFilters';
 import { GalleryGrid } from './GalleryGrid';
 import { MagneticGalleryCursor } from './MagneticGalleryCursor';
 import { GalleryLightbox } from './GalleryLightbox';
+import './PortfolioGallery.css';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -156,7 +157,7 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
       ref={sectionRef}
       data-testid="portfolio-gallery-section"
       aria-label="06 / Our Work — The Art of Transformation Portfolio Gallery"
-      className="relative w-full bg-[#171819] text-[#E8DDC8] overflow-hidden py-24 sm:py-36 lg:py-44"
+      className="portfolio-section relative w-full bg-[#171819] text-[#E8DDC8] overflow-hidden"
     >
       {/* Top Hairline Transition from Phase 5 */}
       <div
@@ -187,10 +188,13 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
         <GalleryHeading />
 
         {/* Category Filter Tabs */}
+        <div className="portfolio-toolbar">
         <GalleryFilters
           activeCategory={activeCategory}
           onSelectCategory={(id) => setActiveCategory(id)}
         />
+        <span className="portfolio-count" aria-live="polite">{String(filteredItems.length).padStart(2, '0')} LOOKS</span>
+        </div>
 
         {/* Asymmetric Masonry Gallery Grid */}
         <GalleryGrid
@@ -200,6 +204,7 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
           onCursorEnter={handleCursorEnter}
           onCursorLeave={handleCursorLeave}
         />
+        <div className="portfolio-footer"><span>A SIGNATURE IN EVERY DETAIL.</span><span>AI-created style inspiration</span></div>
       </div>
 
       {/* Fullscreen Cinematic Lightbox Modal */}

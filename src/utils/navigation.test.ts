@@ -17,10 +17,10 @@ test('brand palette matches strict Sandy Mens Salon specification', () => {
   assert.equal(BRAND_COLORS.softIvory, '#E8DDC8');
 });
 
-test('navigation items contain the exact 6 required links in order', () => {
+test('navigation preserves existing links and adds the showroom entry', () => {
   assert.deepEqual(
     NAV_ITEMS.map((item) => item.label),
-    ['Home', 'About', 'Services', 'Gallery', 'Pricing', 'Contact']
+    ['Home', 'About', 'Services', 'Gallery', 'Products', 'Pricing', 'Contact']
   );
 });
 
@@ -32,6 +32,7 @@ test('overhead spotlights include 5 recessed fixtures across the signboard', () 
 
 test('resolveActiveNavId maps valid hashes and falls back to home', () => {
   assert.equal(resolveActiveNavId('#services'), 'services');
+  assert.equal(resolveActiveNavId('#products'), 'products');
   assert.equal(resolveActiveNavId('PRICING'), 'pricing');
   assert.equal(resolveActiveNavId('#unknown-section'), 'home');
   assert.equal(resolveActiveNavId(''), 'home');

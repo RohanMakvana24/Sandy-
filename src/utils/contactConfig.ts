@@ -83,6 +83,7 @@ export const FOOTER_NAV_LINKS: readonly FooterNavLink[] = [
   { label: 'The Difference', href: '#difference', id: 'difference' },
   { label: 'Our Work', href: '#gallery', id: 'gallery' },
   { label: 'Testimonials', href: '#testimonials', id: 'testimonials' },
+  { label: 'Wedding Grooming', href: '#wedding', id: 'wedding' },
   { label: 'Book Appointment', href: '#booking', id: 'booking' },
   { label: 'Contact', href: '#contact', id: 'contact' },
 ] as const;

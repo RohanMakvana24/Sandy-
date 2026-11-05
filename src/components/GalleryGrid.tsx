@@ -22,7 +22,7 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
       role="region"
       aria-label="Haircut and Grooming Photography Gallery"
       data-testid="gallery-grid"
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 sm:gap-8 items-start"
+      className="portfolio-grid"
     >
       {items.map((item, index) => (
         <GalleryItem
