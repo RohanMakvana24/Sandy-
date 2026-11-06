@@ -5,9 +5,9 @@ import { moveSafely, safePosition, TOUR_STOPS } from './showroomNavigation';
 
 const product: GroomingProduct = { ...SHOWROOM_PRODUCTS[0], id: 'approved', demo: false, purchasable: true, pricePaise: 54950, stockStatus: 'available' };
 const catalog = [product, ...SHOWROOM_PRODUCTS];
-test('unverified concept products cannot be purchased or survive stored cart rehydration', () => {
+test('preview products can be saved in a basket without becoming purchasable', () => {
   assert.equal(SHOWROOM_PRODUCTS.some(isOrderable), false);
-  assert.deepEqual(normalizeCart([{ productId: SHOWROOM_PRODUCTS[0].id, quantity: 1 }]), []);
+  assert.deepEqual(normalizeCart([{ productId: SHOWROOM_PRODUCTS[0].id, quantity: 1 }]), [{ productId: SHOWROOM_PRODUCTS[0].id, quantity: 1 }]);
   assert.equal(orderInquiryUrl([{ productId: product.id, quantity: 1 }], catalog), null);
 });
 test('cart normalization merges duplicates, caps quantities and rejects invalid stored data', () => {
@@ -28,7 +28,7 @@ test('WhatsApp request requires verified contact and encodes product details wit
   const url = new URL(orderInquiryUrl(lines, catalog, contact)!);
   assert.equal(url.hostname, 'wa.me');
   assert.match(url.searchParams.get('text')!, /Daily shampoo × 2/);
-  assert.match(url.searchParams.get('text')!, /1,099/);
+  assert.match(url.searchParams.get('text')!, /549.50/);
   assert.match(url.searchParams.get('text')!, /Please confirm availability/);
 });
 test('camera respects room, shelf and central island boundaries', () => {
@@ -44,4 +44,13 @@ test('long movement cannot tunnel across island or escape the room', () => {
   assert.ok(stop.z >= 2.15 - .001);
   const wall = moveSafely({ x: 3, z: 3 }, { x: 200, z: 200 });
   assert.ok(wall.x <= 4.15 && wall.z <= 8.1);
+});
+
+test('basket supports unknown prices without fabricating a subtotal or order', () => {
+  const lines = [{ productId: SHOWROOM_PRODUCTS[0].id, quantity: 2 }];
+  assert.equal(cartSubtotal(lines), 0);
+  const url = new URL(orderInquiryUrl(lines, SHOWROOM_PRODUCTS, { verified: true, whatsappNumber: '919876543210' })!);
+  assert.match(url.searchParams.get('text')!, /Price on request/);
+  assert.doesNotMatch(url.searchParams.get('text')!, /Subtotal|INR|NaN/);
+  assert.equal(orderInquiryUrl(lines), null);
 });

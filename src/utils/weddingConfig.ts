@@ -1,3 +1,4 @@
+import { SALON_LOCATION_CONFIG } from './contactConfig';
 import { getKolkataDateString, validateIndianMobile } from './bookingConfig';
 
 export const WEDDING_EVENTS = ['Engagement', 'Sangeet', 'Wedding', 'Reception'] as const;
@@ -11,9 +12,8 @@ export const WEDDING_SERVICES = [
 ] as const;
 
 export const WEDDING_CONFIG = {
-  // Publicly listed Mavdi business phone; salon should confirm WhatsApp availability.
-  whatsappNumber: '919129176876',
-  source: 'https://magicpin.in/Rajkot/Mavdi/Restaurant/Sandy-Mens-Salon/store/1b7b515',
+  whatsappNumber: SALON_LOCATION_CONFIG.whatsapp,
+  source: undefined,
   maxPartySize: 20,
 } as const;
 

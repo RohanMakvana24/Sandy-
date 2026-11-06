@@ -1,8 +1,9 @@
+import { SALON_LOCATION_CONFIG } from './contactConfig';
 export type Category = 'hair' | 'beard' | 'skin' | 'styling' | 'combos';
 export type ProductShape = 'pump' | 'dropper' | 'jar' | 'tube' | 'spray';
 export interface GroomingProduct {
   id: string; name: string; slug: string; category: Category; description: string;
-  pricePaise: number | null; currency: 'INR'; size?: string; image: string;
+  pricePaise: number | null; currency: 'INR'; size?: string; image: string; imageFull?: string;
   modelUrl?: string; textureUrl?: string; stockStatus: 'unknown' | 'available' | 'unavailable';
   purchasable: boolean; demo: boolean; shape: ProductShape; color: string;
 }
@@ -20,21 +21,21 @@ export function productThumbnail(shape: ProductShape, color: string, name = 'Gro
 }
 const demo = (id: string, name: string, category: Category, shape: ProductShape, color: string, description: string): GroomingProduct => ({
   id, name, slug: id, category, shape, color, description, pricePaise: null, currency: 'INR',
-  stockStatus: 'unknown', purchasable: false, demo: true, image: productThumbnail(shape, color, name),
+  stockStatus: 'unknown', purchasable: false, demo: true, image: `/assets/showroom/products/${id}.webp`, imageFull: `/assets/showroom/products/${id}.png`,
 });
 // Concept catalogue only. Replace with salon-approved products, images, sizes and verified prices.
 export const SHOWROOM_PRODUCTS: GroomingProduct[] = [
-  demo('daily-shampoo', 'Daily shampoo', 'hair', 'pump', '#292c26', 'A shampoo bottle concept for the hair-care collection. Actual formula and product details await salon confirmation.'),
-  demo('hair-serum', 'Hair serum', 'hair', 'dropper', '#77795B', 'A lightweight serum packaging concept. Ingredients, benefits and directions will be supplied with the real catalogue.'),
-  demo('beard-oil', 'Beard oil', 'beard', 'dropper', '#34362b', 'A beard-care bottle concept. This is a virtual display sample, not a confirmed salon product.'),
-  demo('beard-balm', 'Beard balm', 'beard', 'jar', '#171819', 'A compact grooming jar concept for the beard collection. Product specification is pending.'),
-  demo('face-cleanser', 'Face cleanser', 'skin', 'tube', '#E8DDC8', 'A skincare tube concept. No skin, ingredient or testing claims are made for this sample.'),
-  demo('styling-clay', 'Styling clay', 'styling', 'jar', '#77795B', 'A styling jar concept. Hold, finish, size and availability will be confirmed by the salon.'),
-  demo('finishing-spray', 'Finishing spray', 'styling', 'spray', '#171819', 'A finishing spray packaging concept for the virtual styling shelf.'),
-  demo('grooming-cream', 'Grooming cream', 'styling', 'tube', '#77795B', 'A grooming cream tube concept. Browse the packaging in 3D while the official collection is prepared.'),
+  demo('daily-shampoo', 'Daily shampoo', 'hair', 'pump', '#292c26', "Start your routine with a fresh wash. Explore this daily shampoo presentation and ask our team for a formula suited to your hair."),
+  demo('hair-serum', 'Hair serum', 'hair', 'dropper', '#77795B', "The finishing touch for your hair-care routine. Ask our stylist about a serum suited to your hair texture."),
+  demo('beard-oil', 'Beard oil', 'beard', 'dropper', '#34362b', "A considered addition to your beard-care routine. Discuss your preferred finish and fragrance with the salon."),
+  demo('beard-balm', 'Beard balm', 'beard', 'jar', '#171819', "A compact beard-care essential for your grooming shelf. Ask the team about available balm options."),
+  demo('face-cleanser', 'Face cleanser', 'skin', 'tube', '#E8DDC8', "Make cleansing part of your grooming ritual. Our team can help you choose from the available collection."),
+  demo('styling-clay', 'Styling clay', 'styling', 'jar', '#77795B', "Shape your signature look. Ask your stylist about hold, finish and the right styling clay for you."),
+  demo('finishing-spray', 'Finishing spray', 'styling', 'spray', '#171819', "Complete your styling routine. Explore finishing options with your stylist before choosing."),
+  demo('grooming-cream', 'Grooming cream', 'styling', 'tube', '#77795B', "An everyday styling essential. Speak with the team about a cream suited to your look."),
 ];
 // Intentionally unset: a public telephone listing does not establish a verified WhatsApp account.
-export const SHOWROOM_ORDER_CONTACT: { verified: boolean; whatsappNumber: string } = { verified: false, whatsappNumber: '' };
+export const SHOWROOM_ORDER_CONTACT: { verified: boolean; whatsappNumber: string } = { verified: !!SALON_LOCATION_CONFIG.whatsapp, whatsappNumber: SALON_LOCATION_CONFIG.whatsapp.replace(/\D/g, '') };
 export type CartLine = { productId: string; quantity: number };
 export const isOrderable = (p: GroomingProduct) => !p.demo && p.purchasable && p.stockStatus === 'available' && Number.isSafeInteger(p.pricePaise) && p.pricePaise! >= 0;
 export const formatMoney = (paise: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 }).format(paise / 100);
@@ -43,17 +44,17 @@ export function normalizeCart(input: unknown, catalog = SHOWROOM_PRODUCTS): Cart
   const merged = new Map<string, number>();
   for (const line of input) {
     const product = catalog.find(p => p.id === line?.productId);
-    if (!product || !isOrderable(product) || !Number.isInteger(line.quantity) || line.quantity <= 0) continue;
+    if (!product || !Number.isInteger(line.quantity) || line.quantity <= 0) continue;
     merged.set(product.id, Math.min(99, (merged.get(product.id) || 0) + line.quantity));
   }
   return [...merged].map(([productId, quantity]) => ({ productId, quantity }));
 }
 export function cartSubtotal(lines: CartLine[], catalog = SHOWROOM_PRODUCTS) {
-  return normalizeCart(lines, catalog).reduce((total, line) => total + catalog.find(p => p.id === line.productId)!.pricePaise! * line.quantity, 0);
+  return normalizeCart(lines, catalog).reduce((total, line) => { const p = catalog.find(p => p.id === line.productId)!; return total + (isOrderable(p) ? p.pricePaise! * line.quantity : 0); }, 0);
 }
 export function orderInquiryUrl(lines: CartLine[], catalog = SHOWROOM_PRODUCTS, contact = SHOWROOM_ORDER_CONTACT) {
   const valid = normalizeCart(lines, catalog);
   if (!valid.length || !contact.verified || !/^91[6-9]\d{9}$/.test(contact.whatsappNumber)) return null;
-  const rows = valid.map(line => { const p = catalog.find(p => p.id === line.productId)!; return `${p.name} × ${line.quantity} — ${formatMoney(p.pricePaise!)} each`; });
-  return `https://wa.me/${contact.whatsappNumber}?text=${encodeURIComponent(`Hello Sandy Men's Salon,\n\nI would like to enquire about these grooming products:\n${rows.join('\n')}\n\nEstimated subtotal: ${formatMoney(cartSubtotal(valid, catalog))}\nPlease confirm availability, final price, and how I can purchase these products.\nThank you.`)}`;
+  const rows = valid.map(line => { const p = catalog.find(p => p.id === line.productId)!; return `${p.name} × ${line.quantity} — ${isOrderable(p) ? formatMoney(p.pricePaise!) + ' each' : 'Price on request'}`; });
+  return `https://wa.me/${contact.whatsappNumber}?text=${encodeURIComponent(`Hello Sandy Men's Salon,\n\nI would like to enquire about these grooming products:\n${rows.join('\n')}\n\nPrices and availability: please confirm with the salon.\nPlease confirm availability, final price, and how I can purchase these products.\nThank you.`)}`;
 }

@@ -18,13 +18,13 @@ export const ServiceDetails: React.FC<ServiceDetailsProps> = ({
     <footer className="mt-4 pt-5 border-t border-[#77795B]/25 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
         <p className="text-[10px] font-mono uppercase tracking-[0.26em] text-[#77795B] mb-1">
-          3D INSTRUMENT SPECIFICATION
+          YOUR GROOMING EXPERIENCE
         </p>
         <p
           data-testid="stage-active-craft-detail"
           className="text-xs sm:text-sm text-[#E8DDC8]/75 leading-relaxed"
         >
-          {service.craftDetail}
+          {service.description}
         </p>
       </div>
 

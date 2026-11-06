@@ -15,20 +15,20 @@ import { ProductsShowroomSection } from './components/ProductsShowroomSection';
 import { TestimonialsSection } from './components/TestimonialsSection';
 import { BookingSection } from './components/BookingSection';
 import { WeddingGrooming } from './components/WeddingGrooming';
-import { AppointmentModal } from './components/AppointmentModal';
+import { MobileActions } from './components/MobileActions';
 
 import { ContactLocationSection } from './components/ContactLocationSection';
 import { PremiumFooter } from './components/PremiumFooter';
 import {
   initSmoothScroll,
   scrollToTarget,
-  setSmoothScrollLocked,
   destroySmoothScroll,
 } from './utils/smoothScroll';
 
 export default function App() {
   const [activeNavId, setActiveNavId] = useState<string>('home');
-  const [bookingModalOpen, setBookingModalOpen] = useState<boolean>(false);
+  const [bookingRequestVersion, setBookingRequestVersion] = useState(0);
+  const [initialServiceId, setInitialServiceId] = useState<string>();
 
   // Initialize unified Lenis smooth scroll with GSAP ticker sync
   useEffect(() => {
@@ -37,11 +37,6 @@ export default function App() {
       destroySmoothScroll();
     };
   }, []);
-
-  // Lock smooth scroll when booking modal is open
-  useEffect(() => {
-    setSmoothScrollLocked(bookingModalOpen);
-  }, [bookingModalOpen]);
 
   const handleSelectNav = (id: string) => {
     setActiveNavId(id);
@@ -67,7 +62,7 @@ export default function App() {
         return;
       }
     }
-    setBookingModalOpen(true);
+
   };
 
   return (
@@ -90,7 +85,7 @@ export default function App() {
         <AboutExperience />
 
         {/* Section 04: Our Services — Interactive 3D Grooming Services Collection */}
-        <ServicesSection />
+        <ServicesSection onBookService={(id) => { setInitialServiceId(id); setBookingRequestVersion(v => v + 1); handleBookAppointment(); }} />
 
         {/* Section 05: The Sandy Difference — Interactive Luxury Editorial Experience */}
         <WhyChooseSandy />
@@ -107,7 +102,7 @@ export default function App() {
 
         {/* Section 08: The Private Booking Experience — Luxury Interactive Appointment System */}
         <WeddingGrooming />
-        <BookingSection />
+        <BookingSection initialServiceId={initialServiceId} requestVersion={bookingRequestVersion} />
 
         {/* Section 09: Contact & Location Experience */}
         <ContactLocationSection />
@@ -116,11 +111,7 @@ export default function App() {
       {/* Ultra-Premium Architectural Footer */}
       <PremiumFooter onNavigate={handleSelectNav} />
 
-      {/* Interactive Appointment Booking Modal */}
-      <AppointmentModal
-        isOpen={bookingModalOpen}
-        onClose={() => setBookingModalOpen(false)}
-      />
+      <MobileActions onBook={handleBookAppointment} />
     </div>
   );
 }

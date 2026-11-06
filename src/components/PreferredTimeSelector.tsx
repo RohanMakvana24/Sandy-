@@ -1,20 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BOOKING_SECTION_COPY,
   SALON_REQUEST_TIMESLOTS,
+  isRequestSlotAvailable,
+  getKolkataDateString,
 } from '../utils/bookingConfig';
 
 export interface PreferredTimeSelectorProps {
   selectedTimeSlot: string;
+  selectedDate?: string;
   onSelectTimeSlot: (slot: string) => void;
   slots?: readonly string[];
 }
 
 export const PreferredTimeSelector: React.FC<PreferredTimeSelectorProps> = ({
   selectedTimeSlot,
+  selectedDate = getKolkataDateString(),
   onSelectTimeSlot,
   slots = SALON_REQUEST_TIMESLOTS,
 }) => {
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => { const timer = setInterval(() => setNow(new Date()), 30000); return () => clearInterval(timer); }, []);
   return (
     <div
       role="group"
@@ -44,10 +50,12 @@ export const PreferredTimeSelector: React.FC<PreferredTimeSelectorProps> = ({
             return (
               <button
                 key={slot}
+                disabled={!isRequestSlotAvailable(selectedDate, slot, now)}
+                aria-pressed={isSelected}
                 type="button"
                 data-testid={`timeslot-btn-${slot.replace(/\s+/g, '-').toLowerCase()}`}
                 onClick={() => onSelectTimeSlot(slot)}
-                className={`py-3 px-3 rounded-xs border text-xs sm:text-sm font-mono tracking-wider transition-all duration-200 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#989B74] cursor-pointer ${
+                className={`disabled:opacity-30 disabled:cursor-not-allowed py-3 px-3 rounded-xs border text-xs sm:text-sm font-mono tracking-wider transition-all duration-200 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#989B74] cursor-pointer ${
                   isSelected
                     ? 'bg-[#989B74] border-[#989B74] text-[#171819] font-bold shadow-[0_0_12px_rgba(152,155,116,0.45)]'
                     : 'border-[#77795B]/30 bg-transparent text-[#E8DDC8]/85 hover:border-[#77795B]/70 hover:bg-[#77795B]/15 hover:text-[#E8DDC8]'
@@ -62,7 +70,7 @@ export const PreferredTimeSelector: React.FC<PreferredTimeSelectorProps> = ({
 
       <div className="mt-6 pt-4 border-t border-[#77795B]/15 text-[10px] font-mono text-[#989B74] uppercase tracking-widest flex items-center gap-2">
         <span className="w-1.5 h-1.5 rounded-full bg-[#989B74]" />
-        <span>STUDIO HOURS: 10:30 AM — 08:30 PM IST</span>
+        <span>REQUEST WINDOWS: 10:30 AM — 08:30 PM IST</span>
       </div>
     </div>
   );

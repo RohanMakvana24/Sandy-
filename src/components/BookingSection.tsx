@@ -5,7 +5,7 @@ import {
   BOOKING_SECTION_COPY,
   BookingState,
   getKolkataDateString,
-  SALON_REQUEST_TIMESLOTS,
+  isRequestSlotAvailable,
 } from '../utils/bookingConfig';
 import {
   DEFAULT_GROOMING_SERVICES,
@@ -25,10 +25,12 @@ if (typeof window !== 'undefined') {
 
 export interface BookingSectionProps {
   initialServiceId?: string;
+  requestVersion?: number;
 }
 
 export const BookingSection: React.FC<BookingSectionProps> = ({
   initialServiceId,
+  requestVersion,
 }) => {
   const sectionRef = useRef<HTMLElement | null>(null);
 
@@ -46,13 +48,17 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
       step: 1,
       selectedService: initialService,
       selectedDate: today,
-      selectedTimeSlot: SALON_REQUEST_TIMESLOTS[0],
+      selectedTimeSlot: '',
       fullName: '',
       mobile: '',
       specialRequests: '',
     };
   });
 
+  useEffect(() => {
+    const service = DEFAULT_GROOMING_SERVICES.find(s => s.id === initialServiceId);
+    if (service) setBooking(prev => ({ ...prev, selectedService: service, step: 2 }));
+  }, [initialServiceId, requestVersion]);
   // GSAP Entrance Timeline
   useEffect(() => {
     const sectionEl = sectionRef.current;
@@ -120,7 +126,7 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
   const canNavigateToStep3 =
     Boolean(booking.selectedService) &&
     Boolean(booking.selectedDate) &&
-    Boolean(booking.selectedTimeSlot);
+    isRequestSlotAvailable(booking.selectedDate, booking.selectedTimeSlot);
 
   const handleSelectService = (service: GroomingServiceItem) => {
     setBooking((prev) => ({
@@ -133,6 +139,7 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
     setBooking((prev) => ({
       ...prev,
       selectedDate: date,
+      selectedTimeSlot: '',
     }));
   };
 
@@ -215,7 +222,7 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
                     STEP 02 — CHOOSE DATE &amp; TIME
                   </h3>
                   <span className="text-xs text-[#E8DDC8]/55 font-light">
-                    Kolkata Local Time (IST)
+                    India Standard Time (IST)
                   </span>
                 </div>
 
@@ -227,6 +234,7 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
 
                   <PreferredTimeSelector
                     selectedTimeSlot={booking.selectedTimeSlot}
+                    selectedDate={booking.selectedDate}
                     onSelectTimeSlot={handleSelectTimeSlot}
                   />
                 </div>
@@ -245,7 +253,7 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
                   <button
                     type="button"
                     onClick={() => setBooking((prev) => ({ ...prev, step: 3 }))}
-                    disabled={!booking.selectedDate || !booking.selectedTimeSlot}
+                    disabled={!isRequestSlotAvailable(booking.selectedDate, booking.selectedTimeSlot)}
                     data-testid="booking-continue-step2"
                     className={`px-8 py-3.5 rounded-xs text-xs font-mono font-bold uppercase tracking-[0.22em] transition-all flex items-center gap-3 ${
                       booking.selectedDate && booking.selectedTimeSlot

@@ -18,6 +18,8 @@ export interface GroomingServiceItem {
   objectType: Service3DObjectType;
   instrumentLabel: string;
   craftDetail: string;
+  startingPriceINR?: number;
+  durationMinutes?: number;
 }
 
 /**

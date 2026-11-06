@@ -5,7 +5,7 @@ import {
   BookingState,
   SALON_CONFIG,
   buildWhatsAppBookingUrl,
-  validateCustomerDetails,
+  validateBooking,
 } from '../utils/bookingConfig';
 
 export interface CustomerDetailsFormProps {
@@ -25,7 +25,7 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const result = validateCustomerDetails(booking.fullName, booking.mobile);
+    const result = validateBooking(booking);
     if (!result.valid) {
       setErrors(result.errors);
       return;
@@ -109,6 +109,7 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
             name="fullName"
             type="text"
             required
+            maxLength={100}
             autoComplete="name"
             value={booking.fullName}
             onChange={(e) => {
@@ -154,6 +155,8 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
               name="mobile"
               type="tel"
               required
+              maxLength={18}
+              inputMode="tel"
               autoComplete="tel"
               value={booking.mobile}
               onChange={(e) => {
@@ -195,6 +198,7 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
             id="booking-requests"
             name="specialRequests"
             rows={3}
+            maxLength={1000}
             value={booking.specialRequests}
             onChange={(e) => onUpdateField('specialRequests', e.target.value)}
             placeholder="Any specific styling instructions, scalp care notes, or beard trimming preferences..."
@@ -213,7 +217,7 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
               {BOOKING_SECTION_COPY.statusMessage}
             </p>
             <p className="font-light">
-              Clicking &ldquo;SEND WHATSAPP APPOINTMENT REQUEST&rdquo; will launch your WhatsApp chat with a prefilled appointment specification. Opening WhatsApp sends the request for confirmation by the Sandy salon desk.
+              Clicking &ldquo;SEND WHATSAPP APPOINTMENT REQUEST&rdquo; will launch your WhatsApp chat with a prefilled appointment specification. Tap Send in WhatsApp to deliver your request. The salon will confirm availability.
             </p>
           </div>
         </div>
@@ -230,11 +234,14 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
             <polyline points="22 4 12 14.01 9 11.01" />
           </svg>
           <span>
-            WhatsApp chat opened. Please tap Send in WhatsApp to deliver your appointment request to the Sandy desk.
+            Continue in WhatsApp and tap Send in WhatsApp to deliver your appointment request to the Sandy desk.
           </span>
         </div>
       )}
 
+      {(errors.selectedService || errors.selectedTimeSlot) && <p role="alert" className="mb-4 text-sm text-red-300">{errors.selectedService || errors.selectedTimeSlot} Use Back to update your selection.</p>}
+      {!whatsappUrl && <p role="alert" className="mb-4 text-sm">Online requests are currently unavailable. Please contact the salon directly.</p>}
+      {requestSent && whatsappUrl && <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="block mb-4 underline">Open WhatsApp again</a>}
       {/* Action Buttons: Back + Send WhatsApp Request */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-[#77795B]/20">
         <button
@@ -248,6 +255,7 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
 
         <button
           type="submit"
+          disabled={!whatsappUrl}
           data-testid="booking-submit-whatsapp"
           className="w-full sm:w-auto px-8 py-3.5 rounded-xs bg-[#77795B] hover:bg-[#888a68] text-[#E8DDC8] text-xs sm:text-sm font-mono font-bold uppercase tracking-[0.2em] shadow-[0_12px_28px_rgba(0,0,0,0.5)] transition-all cursor-pointer flex items-center justify-center gap-3"
         >

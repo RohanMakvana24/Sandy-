@@ -2,7 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { clampNormalized } from '../utils/heroKinematics';
 import { ExperienceFocusMode } from '../utils/experienceKinematics';
 import { ExperienceHeading } from './ExperienceHeading';
-import { GroomingToolsScene } from './GroomingToolsScene';
+import { lazy } from 'react';
+import { DeferredScene } from './DeferredScene';
+const GroomingToolsScene = lazy(() => import('./GroomingToolsScene').then(m => ({ default: m.GroomingToolsScene })));
 import { ExperiencePhilosophy } from './ExperiencePhilosophy';
 import { initExperienceScrollAnimation } from './ExperienceScrollAnimation';
 
@@ -98,13 +100,13 @@ export const AboutExperience: React.FC = () => {
         {/* CENTER — INTERACTIVE 3D GROOMING OBJECT (BARBER SCISSORS & COMB) */}
         <div ref={sceneWrapRef} className="relative w-full flex flex-col items-center">
           <div className="relative w-full h-[260px] sm:h-[340px] lg:h-[370px] flex items-center justify-center">
-            <GroomingToolsScene
+            <DeferredScene><GroomingToolsScene
               pointerX={pointer.x}
               pointerY={pointer.y}
               scrollProgress={scrollProgress}
               focusMode={focusMode}
               isMobile={isMobile}
-            />
+            /></DeferredScene>
           </div>
 
           {/* Minimal Interactive Instrument Mode Selector */}

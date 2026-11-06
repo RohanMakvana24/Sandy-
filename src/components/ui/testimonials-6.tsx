@@ -6,7 +6,7 @@ import { DEFAULT_TESTIMONIALS, TESTIMONIALS_SECTION_COPY, type TestimonialItem }
 import './testimonials-6.css';
 
 export interface TestimonialsSectionProps { testimonials?: readonly TestimonialItem[]; onBookAppointment?: () => void }
-export function TestimonialsSection({ testimonials = DEFAULT_TESTIMONIALS, onBookAppointment }: TestimonialsSectionProps) {
+export function TestimonialsSection({ testimonials = import.meta.env.DEV ? DEFAULT_TESTIMONIALS : [], onBookAppointment }: TestimonialsSectionProps) {
   const [columnCount, setColumnCount] = useState(() => window.innerWidth >= 1024 ? 3 : window.innerWidth >= 768 ? 2 : 1);
   const [paused, setPaused] = useState(false), [viewAll, setViewAll] = useState(false);
   const [reduced, setReduced] = useState(() => matchMedia('(prefers-reduced-motion: reduce)').matches);

@@ -1,3 +1,4 @@
+import { createProductFactory } from './productModels';
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
@@ -34,9 +35,9 @@ export function buildEnvironment(renderer: THREE.WebGLRenderer, mobile: boolean)
   const random = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
   const floorTexture = textureCanvas(512, 512, ctx => {
     ctx.fillStyle = '#aaa28e'; ctx.fillRect(0, 0, 512, 512);
-    for (let i = 0; i < 2300; i++) {
+    for (let i = 0; i < 6000; i++) {
       ctx.fillStyle = ['#655f51', '#d2c7ae', '#8d8778', '#e0d5bf'][i % 4];
-      ctx.beginPath(); ctx.ellipse(random() * 512, random() * 512, 1 + random() * 5, 1 + random() * 2.5, random() * 3, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(random() * 512, random() * 512, .3 + random() * 1.1, .3 + random() * .7, random() * 3, 0, Math.PI * 2); ctx.fill();
     }
   });
   floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping; floorTexture.repeat.set(5, 7);
@@ -57,19 +58,8 @@ export function buildEnvironment(renderer: THREE.WebGLRenderer, mobile: boolean)
   for (let i = 0; i <= 32; i++) { const a = Math.PI - i / 32 * Math.PI; archPoints.push(new THREE.Vector3(Math.cos(a) * 1.325, 4.325 + Math.sin(a) * 1.325, .25)); }
   archPoints.push(new THREE.Vector3(1.325, .85, .25));
   const archLight = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(archPoints), 64, .022, 5, false);
-  const decorBodies = new Map<THREE.Material, THREE.Matrix4[]>();
-  const bottleDark = mat('#25271f', .23, .23), bottleLight = mat('#d9d0b8', .4), bottleOlive = mat('#62664b', .32);
-  const labelTexture = textureCanvas(256, 256, ctx => {
-    ctx.fillStyle = '#E8DDC8'; ctx.fillRect(0, 0, 256, 256); ctx.fillStyle = '#171819'; ctx.textAlign = 'center';
-    ctx.font = '38px Georgia'; ctx.fillText('COLLECTION', 128, 105); ctx.font = '19px sans-serif'; ctx.fillText('CONCEPT / 01', 128, 153);
-  });
-  const labelMat = new THREE.MeshStandardMaterial({ map: labelTexture, roughness: .55 }); materials.add(labelMat);
+  const shelfProducts: { product: GroomingProduct; position: [number, number, number]; rotation: number }[] = [];
   const dummy = new THREE.Object3D();
-  const addInstance = (material: THREE.Material, x: number, y: number, z: number, sx: number, sy: number, sz: number, group: THREE.Group) => {
-    dummy.position.set(x, y, z); dummy.scale.set(sx, sy, sz); dummy.rotation.set(0, 0, 0); dummy.updateMatrix(); group.updateMatrixWorld(true);
-    const matrix = new THREE.Matrix4().multiplyMatrices(group.matrixWorld, dummy.matrix);
-    if (!decorBodies.has(material)) decorBodies.set(material, []); decorBodies.get(material)!.push(matrix);
-  };
   function shelf(x: number, z: number, rotation: number) {
     const group = new THREE.Group(); group.position.set(x, 0, z); group.rotation.y = rotation; room.add(group);
     const back = mesh(shell, olive, group); back.position.y = .85;
@@ -80,21 +70,16 @@ export function buildEnvironment(renderer: THREE.WebGLRenderer, mobile: boolean)
     for (let row = 0; row < 4; row++) {
       const y = 1.18 + row * .86;
       box(0, y, .43, 2.52, .08, .82, stone, group); box(0, y - .055, .83, 2.45, .025, .025, warm, group);
-      const count = mobile ? 5 : 7;
+      const count = 4;
       for (let i = 0; i < count; i++) {
-        const px = -1.02 + i * 2.04 / (count - 1), height = .33 + random() * .22;
-        addInstance([bottleDark, bottleLight, bottleOlive][(row + i) % 3], px, y + .06 + height / 2, .38, .09, height, .09, group);
-        addInstance(black, px, y + .08 + height, .38, .055, .1, .055, group);
-        box(px, y + height * .45, .477, .115, .14, .012, labelMat, group);
+        const px = -.94 + i * 1.88 / (count - 1);
+        const local = new THREE.Vector3(px, y + .05, .51).applyAxisAngle(new THREE.Vector3(0, 1, 0), rotation);
+        shelfProducts.push({ product: SHOWROOM_PRODUCTS[(row * 2 + i + (x > 0 ? 2 : 0)) % SHOWROOM_PRODUCTS.length], position: [x + local.x, local.y, z + local.z], rotation });
       }
     }
     const light = new THREE.PointLight('#ffe4b8', 12, 4.5, 2); light.position.set(0, 3.4, .9); group.add(light);
   }
   [-3.8, 0, 3.8].forEach(z => { shelf(-5.85, z, Math.PI / 2); shelf(5.85, z, -Math.PI / 2); });
-  decorBodies.forEach((matrices, material) => {
-    const instances = new THREE.InstancedMesh(cylinderGeo, material, matrices.length);
-    matrices.forEach((matrix, i) => instances.setMatrixAt(i, matrix)); room.add(instances);
-  });
 
   // Back-wall signature is original typography, not a modified official logo.
   const signTexture = textureCanvas(1024, 1024, ctx => {
@@ -148,48 +133,18 @@ export function buildEnvironment(renderer: THREE.WebGLRenderer, mobile: boolean)
   leaves.forEach((m, i) => leafMesh.setMatrixAt(i, m)); room.add(leafMesh);
 
   const placements: ProductPlacement[] = [];
+  const productFactory = createProductFactory(renderer, mobile);
   function productModel(product: GroomingProduct, position: [number, number, number], scale = 1) {
-    const group = new THREE.Group(); group.position.set(...position); group.scale.setScalar(scale); room.add(group);
-    const bodyMat = mat(product.color, .24, .15), jar = product.shape === 'jar';
-    bodyMat.userData.productBody = true;
-    const height = jar ? .25 : .64, radius = jar ? .22 : .13;
-    if (product.shape === 'tube') {
-      const tubeGeo = new THREE.CylinderGeometry(.15, .11, .6, 16); mesh(tubeGeo, bodyMat, group).position.y = .32;
-      box(0, .64, 0, .3, .035, .09, bodyMat, group); cylinder(0, .03, 0, .11, .06, black, group);
-    } else {
-      const body = cylinder(0, height / 2, 0, radius, height, bodyMat, group); body.castShadow = true;
-      cylinder(0, height + .045, 0, jar ? radius * 1.04 : .075, jar ? .06 : .11, black, group);
-      if (product.shape === 'pump') { box(.055, height + .14, 0, .2, .045, .05, metal, group); cylinder(0, height + .1, 0, .025, .1, black, group); }
-      if (product.shape === 'dropper') cylinder(0, height + .13, 0, .045, .12, black, group);
-    }
-    const productLabel = textureCanvas(jar ? 768 : 512, jar ? 384 : 640, ctx => {
-      const w = ctx.canvas.width, h = ctx.canvas.height;
-      ctx.fillStyle = '#f1eadb'; ctx.fillRect(0, 0, w, h); ctx.fillStyle = '#303528'; ctx.textAlign = 'center';
-      ctx.font = `${jar ? 25 : 22}px sans-serif`; ctx.fillText('THE COLLECTION', w / 2, h * .18);
-      ctx.fillStyle = '#77795B'; ctx.fillRect(w * .3, h * .29, w * .4, 3); ctx.fillStyle = '#171819';
-      const words = product.name.toUpperCase().split(' ');
-      ctx.font = `${jar ? 65 : 54}px Georgia`; ctx.fillText(words.slice(0, -1).join(' '), w / 2, h * .5, w * .88);
-      ctx.fillText(words.at(-1)!, w / 2, h * .67, w * .88);
-      ctx.font = `${jar ? 20 : 18}px sans-serif`; ctx.fillText('CONCEPT PREVIEW', w / 2, h * .86);
-    });
-    productLabel.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
-    const productLabelMat = new THREE.MeshStandardMaterial({ map: productLabel, roughness: .75, emissiveMap: productLabel, emissive: '#E8DDC8', emissiveIntensity: .1 }); materials.add(productLabelMat);
-    const label = box(0, height * .49, radius + .009, jar ? .35 : .23, jar ? .17 : .34, .008, productLabelMat, group);
-    label.userData.productId = product.id;
-    group.userData.productId = product.id;
-    group.traverse(object => { object.userData.productId = product.id; });
-    placements.push({ product, object: group, position: group.position.clone().add(new THREE.Vector3(0, .32, 0)) });
+    const group = productFactory.create(product); group.position.set(...position); group.scale.setScalar(scale); room.add(group);
+    placements.push({ product, object: group, position: group.position.clone().add(new THREE.Vector3(0, group.userData.height * scale / 2, 0)) });
+    return group;
   }
+  shelfProducts.forEach(({product, position, rotation}) => { productModel(product, position).rotation.y = rotation; });
   SHOWROOM_PRODUCTS.forEach((p, i) => {
     // Staggered display keeps front labels facing the entrance instead of hiding half the collection in a ring.
     const positions: [number, number, number][] = [[-1.14, 1.37, .65], [-.38, 1.37, 1.05], [.38, 1.37, 1.05], [1.14, 1.37, .65], [-.96, 1.37, -.38], [-.32, 1.73, -.45], [.32, 1.73, -.45], [.96, 1.37, -.38]];
     productModel(p, positions[i], 1.35);
   });
-  // Additional clickable real display positions, driven by the same catalogue.
-  productModel(SHOWROOM_PRODUCTS[0], [-5.25, 2.98, .15], 1); placements.at(-1)!.object.rotation.y = Math.PI / 2;
-  productModel(SHOWROOM_PRODUCTS[2], [5.25, 2.12, .15], 1); placements.at(-1)!.object.rotation.y = -Math.PI / 2;
-  productModel(SHOWROOM_PRODUCTS[5], [5.25, 2.12, -3.8], 1.2); placements.at(-1)!.object.rotation.y = -Math.PI / 2;
-
   // Batch fixed architecture by material. Interactive product groups stay separate for raycasting.
   room.updateMatrixWorld(true);
   const staticMeshes = new Map<THREE.Material, { source: THREE.Mesh; geometry: THREE.BufferGeometry }[]>();
@@ -219,6 +174,7 @@ export function buildEnvironment(renderer: THREE.WebGLRenderer, mobile: boolean)
   return {
     room, placements, navigationPoints, environment: environment?.texture ?? null,
     dispose() {
+      productFactory.dispose();
       geometries.forEach(g => g.dispose()); materials.forEach(m => m.dispose()); textures.forEach(t => t.dispose()); environment?.dispose();
     },
   };

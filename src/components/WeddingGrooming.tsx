@@ -58,6 +58,7 @@ export function WeddingGrooming() {
 
   return <section id="wedding" ref={section} className="wedding-section" aria-labelledby="wedding-title">
     <div className="wedding-inner">
+      {!WEDDING_CONFIG.whatsappNumber && <p role="status">Online wedding requests are currently unavailable. Please visit the salon to discuss your plans.</p>}
       <header className="wedding-header" data-wedding-reveal>
         <div><p className="wedding-eyebrow"><span /> MADE FOR YOUR MOMENT</p>
           <h2 id="wedding-title">THE GROOM<br /><span>EXPERIENCE.</span></h2></div>

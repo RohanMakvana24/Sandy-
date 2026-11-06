@@ -20,6 +20,7 @@ export interface ServicesSectionProps {
    * Optional configurable services list so salon offerings can be updated before launch.
    */
   services?: readonly GroomingServiceItem[];
+  onBookService?: (id: string) => void;
   /**
    * Optional GLB URLs keyed by 3D object type (`scissors`, `razor`, `bottle`, `dryer`, `skincare`, `colorbowl`).
    */
@@ -29,6 +30,7 @@ export interface ServicesSectionProps {
 export const ServicesSection: React.FC<ServicesSectionProps> = ({
   services = DEFAULT_GROOMING_SERVICES,
   glbModelOverrides,
+  onBookService,
 }) => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const [activeIndex, setActiveIndex] = useState<number>(0);
@@ -234,6 +236,8 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
               glbModelOverrides={glbModelOverrides}
             />
 
+            <button type="button" onClick={() => onBookService?.(activeService.id)} className="mt-4 px-6 py-3 bg-[#77795B] text-[#E8DDC8] rounded-sm">Request {activeService.title}</button>
+            <p className="mt-2 text-xs text-[#E8DDC8]/70">{activeService.startingPriceINR != null ? `From INR ${activeService.startingPriceINR}` : 'Ask the salon for pricing'}{activeService.durationMinutes != null ? ` / ${activeService.durationMinutes} minutes` : ' / Duration confirmed by the salon'}</p>
             <ServiceDetails
               service={activeService}
               services={services}

@@ -33,11 +33,11 @@ test('crew size includes groom and stays within supported bounds', () => {
 });
 
 test('inquiry URL encodes complete request without sending it', () => {
-  const result = buildWeddingInquiryUrl({ ...valid, party: 'crew', partySize: 5 });
+  const result = buildWeddingInquiryUrl({ ...valid, party: 'crew', partySize: 5 }, '919876543210');
   assert.ok(result);
   const url = new URL(result);
   assert.equal(url.hostname, 'wa.me');
-  assert.equal(url.pathname, '/919129176876');
+  assert.equal(url.pathname, '/919876543210');
   const message = url.searchParams.get('text')!;
   assert.match(message, /Groom \+ crew \(5 people, including groom\)/);
   assert.match(message, /Signature haircut, Beard & shave/);

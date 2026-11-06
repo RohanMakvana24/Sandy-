@@ -1,0 +1,37 @@
+{
+  "mode": "Built-in image_gen; transparent_background: true",
+  "assets": [
+    {
+      "id": "daily-shampoo",
+      "prompt": "Use case: product-mockup. One tall satin obsidian cylindrical pump bottle, 250 ml. Original SANDY salon collection. Photoreal front-facing luxury packshot, ivory label reading SANDY / DAILY SHAMPOO / GROOMING COLLECTION, champagne foil accents, complete silhouette, crisp high-resolution detail, true transparent background."
+    },
+    {
+      "id": "hair-serum",
+      "prompt": "Use case: product-mockup. One olive glass pipette bottle, 50 ml, luxury men's salon product cutout. Original SANDY collection packaging. Photoreal studio packshot, front facing, complete silhouette centered occupying 82 percent height, slight top view. Premium matte materials, elegant ivory label with readable text \"SANDY\", \"HAIR SERUM\", \"GROOMING COLLECTION\". Restrained champagne accents. Sharp realistic materials and typography suitable for zoom. True transparent alpha background, no scenery, floor, props, watermark or external cast shadow. High resolution portrait."
+    },
+    {
+      "id": "beard-oil",
+      "prompt": "Use case: product-mockup. One amber glass dropper bottle, 30 ml, luxury men's salon product cutout. Original SANDY collection packaging. Photoreal studio packshot, front facing, complete silhouette centered occupying 82 percent height, slight top view. Premium matte materials, elegant ivory label with readable text \"SANDY\", \"BEARD OIL\", \"GROOMING COLLECTION\". Restrained champagne accents. Sharp realistic materials and typography suitable for zoom. True transparent alpha background, no scenery, floor, props, watermark or external cast shadow. High resolution portrait."
+    },
+    {
+      "id": "beard-balm",
+      "prompt": "Use case: product-mockup. One wide low charcoal glass jar with black lid, 50 g, luxury men's salon product cutout. Original SANDY collection packaging. Photoreal studio packshot, front facing, complete silhouette centered occupying 82 percent height, slight top view. Premium matte materials, elegant ivory label with readable text \"SANDY\", \"BEARD BALM\", \"GROOMING COLLECTION\". Restrained champagne accents. Sharp realistic materials and typography suitable for zoom. True transparent alpha background, no scenery, floor, props, watermark or external cast shadow. High resolution portrait."
+    },
+    {
+      "id": "face-cleanser",
+      "prompt": "Use case: product-mockup. One ivory squeeze tube standing on black cap, 100 ml, luxury men's salon product cutout. Original SANDY collection packaging. Photoreal studio packshot, front facing, complete silhouette centered occupying 82 percent height, slight top view. Premium matte materials, elegant ivory label with readable text \"SANDY\", \"FACE CLEANSER\", \"GROOMING COLLECTION\". Restrained champagne accents. Sharp realistic materials and typography suitable for zoom. True transparent alpha background, no scenery, floor, props, watermark or external cast shadow. High resolution portrait."
+    },
+    {
+      "id": "styling-clay",
+      "prompt": "Use case: product-mockup. One wide low olive jar with black lid, 75 g, luxury men's salon product cutout. Original SANDY collection packaging. Photoreal studio packshot, front facing, complete silhouette centered occupying 82 percent height, slight top view. Premium matte materials, elegant ivory label with readable text \"SANDY\", \"STYLING CLAY\", \"GROOMING COLLECTION\". Restrained champagne accents. Sharp realistic materials and typography suitable for zoom. True transparent alpha background, no scenery, floor, props, watermark or external cast shadow. High resolution portrait."
+    },
+    {
+      "id": "finishing-spray",
+      "prompt": "Use case: product-mockup. One tall slim graphite aluminium spray can, 200 ml, luxury men's salon product cutout. Original SANDY collection packaging. Photoreal studio packshot, front facing, complete silhouette centered occupying 82 percent height, slight top view. Premium matte materials, elegant ivory label with readable text \"SANDY\", \"FINISHING SPRAY\", \"GROOMING COLLECTION\". Restrained champagne accents. Sharp realistic materials and typography suitable for zoom. True transparent alpha background, no scenery, floor, props, watermark or external cast shadow. High resolution portrait."
+    },
+    {
+      "id": "grooming-cream",
+      "prompt": "Use case: product-mockup. One olive squeeze tube standing on black cap, 100 ml, luxury men's salon product cutout. Original SANDY collection packaging. Photoreal studio packshot, front facing, complete silhouette centered occupying 82 percent height, slight top view. Premium matte materials, elegant ivory label with readable text \"SANDY\", \"GROOMING CREAM\", \"GROOMING COLLECTION\". Restrained champagne accents. Sharp realistic materials and typography suitable for zoom. True transparent alpha background, no scenery, floor, props, watermark or external cast shadow. High resolution portrait."
+    }
+  ]
+}

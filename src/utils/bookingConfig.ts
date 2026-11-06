@@ -1,3 +1,4 @@
+import { SALON_LOCATION_CONFIG } from './contactConfig';
 import {
   DEFAULT_GROOMING_SERVICES,
   GroomingServiceItem,
@@ -66,7 +67,7 @@ export const SALON_CONFIG = {
   location: 'Kalawad Road, Rajkot, Gujarat',
   timezone: 'Asia/Kolkata',
   // Configurable WhatsApp number. If empty or unverified, graceful fallback UI renders.
-  whatsappNumber: '+91 98250 12345',
+  whatsappNumber: SALON_LOCATION_CONFIG.whatsapp,
   maxAdvanceDays: 45,
 } as const;
 
@@ -94,7 +95,7 @@ export function buildWhatsAppBookingUrl(
   configuredNumber: string
 ): string | null {
   const sanitizedNum = configuredNumber.replace(/\D/g, '');
-  if (!sanitizedNum || sanitizedNum.length < 10) {
+  if (!/^91[6-9]\d{9}$/.test(sanitizedNum)) {
     return null;
   }
 
@@ -159,4 +160,22 @@ export function validateCustomerDetails(
     valid: Object.keys(errors).length === 0,
     errors,
   };
+}
+
+export function isRequestSlotAvailable(date: string, slot: string, now = new Date()): boolean {
+  if (!SALON_REQUEST_TIMESLOTS.includes(slot)) return false;
+  const today = getKolkataDateString(now);
+  const max = new Date(today + 'T00:00:00+05:30');
+  max.setUTCDate(max.getUTCDate() + SALON_CONFIG.maxAdvanceDays);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || date < today || date > getKolkataDateString(max)) return false;
+  const [clock, period] = slot.split(' ');
+  const [hour, minute] = clock.split(':').map(Number);
+  const instant = new Date(date + 'T' + String(hour % 12 + (period === 'PM' ? 12 : 0)).padStart(2, '0') + ':' + String(minute).padStart(2, '0') + ':00+05:30');
+  return Number.isFinite(instant.getTime()) && getKolkataDateString(instant) === date && instant > now;
+}
+export function validateBooking(booking: BookingState, now = new Date()) {
+  const { errors } = validateCustomerDetails(booking.fullName, booking.mobile);
+  if (!DEFAULT_GROOMING_SERVICES.some(service => service.id === booking.selectedService?.id)) errors.selectedService = 'Please select a service.';
+  if (!isRequestSlotAvailable(booking.selectedDate, booking.selectedTimeSlot, now)) errors.selectedTimeSlot = 'Please choose a future time within the next 45 days.';
+  return { valid: Object.keys(errors).length === 0, errors };
 }

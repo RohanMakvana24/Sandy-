@@ -82,3 +82,26 @@ test('getKolkataDateString produces YYYY-MM-DD formatted date in Asia/Kolkata ti
   const dateStr = getKolkataDateString();
   assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(dateStr));
 });
+
+// Deterministic coverage for dates, stale slots and final submission.
+test('request slots respect India time, invalid dates and advance limit', async () => {
+  const { isRequestSlotAvailable } = await import('./bookingConfig');
+  const now = new Date('2026-11-06T06:00:00Z'); // 11:30 IST
+  assert.equal(isRequestSlotAvailable('2026-11-06', '10:30 AM', now), false);
+  assert.equal(isRequestSlotAvailable('2026-11-06', '11:30 AM', now), false);
+  assert.equal(isRequestSlotAvailable('2026-11-06', '12:30 PM', now), true);
+  assert.equal(isRequestSlotAvailable('2026-11-05', '12:30 PM', now), false);
+  assert.equal(isRequestSlotAvailable('2026-11-07', '12:30 PM', now), true);
+  assert.equal(isRequestSlotAvailable('2026-12-21', '12:30 PM', now), true);
+  assert.equal(isRequestSlotAvailable('2026-12-22', '12:30 PM', now), false);
+  assert.equal(isRequestSlotAvailable('2026-11-31', '12:30 PM', now), false);
+  assert.equal(isRequestSlotAvailable('2026-11-07', 'invalid', now), false);
+});
+test('final booking validation rejects missing service and elapsed slot', async () => {
+  const { validateBooking } = await import('./bookingConfig');
+  const booking: BookingState = { step: 3, fullName: 'Test User', mobile: '9876543210', selectedService: DEFAULT_GROOMING_SERVICES[0], selectedDate: '2026-11-06', selectedTimeSlot: '12:30 PM', specialRequests: '' };
+  const now = new Date('2026-11-06T06:00:00Z');
+  assert.equal(validateBooking(booking, now).valid, true);
+  assert.ok(validateBooking({ ...booking, selectedService: null }, now).errors.selectedService);
+  assert.ok(validateBooking({ ...booking, selectedTimeSlot: '10:30 AM' }, now).errors.selectedTimeSlot);
+});

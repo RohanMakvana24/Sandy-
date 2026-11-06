@@ -3,7 +3,9 @@ import {
   GroomingServiceItem,
   Service3DObjectType,
 } from '../utils/servicesKinematics';
-import { ServicesShowcaseScene } from './ServicesShowcaseScene';
+import { lazy } from 'react';
+import { DeferredScene } from './DeferredScene';
+const ServicesShowcaseScene = lazy(() => import('./ServicesShowcaseScene').then(m => ({ default: m.ServicesShowcaseScene })));
 
 export interface ServiceShowcase3DProps {
   activeService: GroomingServiceItem;
@@ -41,7 +43,7 @@ export const ServiceShowcase3D: React.FC<ServiceShowcase3DProps> = ({
 
       {/* Single Optimized Real-Time 3D Canvas */}
       <div className="relative z-10 w-full h-full">
-        <ServicesShowcaseScene
+        <DeferredScene><ServicesShowcaseScene
           activeService={activeService}
           activeIndex={activeIndex}
           pointerX={pointerX}
@@ -49,7 +51,7 @@ export const ServiceShowcase3D: React.FC<ServiceShowcase3DProps> = ({
           scrollProgress={scrollProgress}
           isMobile={isMobile}
           glbModelOverrides={glbModelOverrides}
-        />
+        /></DeferredScene>
       </div>
 
       {/* Top-Left Active Service Heading Badge over Stage */}

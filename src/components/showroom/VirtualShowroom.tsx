@@ -5,11 +5,12 @@ import { buildEnvironment } from './buildEnvironment';
 import { EYE_HEIGHT, moveSafely, safePosition, TOUR_STOPS } from '../../utils/showroomNavigation';
 import type { Category } from '../../utils/showroomCatalog';
 
-export interface CameraCommand { serial: number; stop?: number; productId?: string; restore?: boolean; move?: number; turn?: number }
+export interface CameraCommand { serial: number; stop?: number; productId?: string; productPosition?: [number, number, number]; restore?: boolean; move?: number; turn?: number; zoom?: number }
 export type ShowroomFailure = 'unsupported' | 'context-lost' | 'load-error';
 interface Props {
   category: Category | 'all'; command: CameraCommand; free: boolean; reduced: boolean;
-  onSelect: (id: string) => void; onHover: (id: string | null) => void; onReady: () => void; onFailure: (reason: ShowroomFailure) => void;
+  onAdd: (id: string, origin: { x: number; y: number }) => void;
+  onSelect: (id: string, position?: [number, number, number]) => void; onHover: (id: string | null) => void; onReady: () => void; onFailure: (reason: ShowroomFailure) => void;
   lowQuality: boolean;
   onTourStop: (stop: number) => void;
 }
@@ -19,6 +20,7 @@ function Room(props: Props) {
   const latest = useRef(props); latest.current = props;
   const positionGoal = useRef(new THREE.Vector3(0, EYE_HEIGHT, 7.6));
   const yaw = useRef(0), pitch = useRef(0), yawGoal = useRef(0), pitchGoal = useRef(0);
+  const inspectionTarget = useRef<THREE.Vector3 | null>(null);
   const saved = useRef<{ position: THREE.Vector3; yaw: number; pitch: number }>(null);
   const keys = useRef(new Set<string>()), velocity = useRef(new THREE.Vector2());
   const route = useRef<THREE.Vector3[]>([]);
@@ -61,7 +63,7 @@ function Room(props: Props) {
       hoveredId = id;
       built.placements.forEach(p => p.object.traverse(object => {
         if (object instanceof THREE.Mesh && object.material instanceof THREE.MeshStandardMaterial && object.material.userData.productBody) {
-          object.material.emissive.set('#77795B'); object.material.emissiveIntensity = p.product.id === id ? .6 : .12;
+          object.material.emissive.set('#77795B'); object.material.emissiveIntensity = p.product.id === id ? .13 : 0;
         }
       })); invalidate();
     };
@@ -83,11 +85,25 @@ function Room(props: Props) {
         latest.current.onHover(id); highlight(id); canvas.style.cursor = id || hit?.object.userData.tourStop !== undefined ? 'pointer' : 'grab';
       }
     };
+    let selectTimer: ReturnType<typeof setTimeout> | undefined;
+    let lastTap: { id: string; x: number; y: number; time: number } | null = null;
     const up = (event: PointerEvent) => {
       if (!pointer || event.pointerId !== pointer.id) return;
       if (!pointer.moved) {
         const hit = hitAt(event);
-        if (hit?.object.userData.productId) latest.current.onSelect(hit.object.userData.productId);
+        if (hit?.object.userData.productId) {
+          const id = hit.object.userData.productId as string;
+          const point = hit.object.getWorldPosition(new THREE.Vector3()).toArray() as [number, number, number];
+          const now = performance.now();
+          if (lastTap && lastTap.id === id && now - lastTap.time < 340 && Math.hypot(event.clientX-lastTap.x,event.clientY-lastTap.y) < 24) {
+            clearTimeout(selectTimer); lastTap = null;
+            latest.current.onAdd(id, { x: event.clientX, y: event.clientY });
+          } else {
+            clearTimeout(selectTimer);
+            lastTap = { id, x: event.clientX, y: event.clientY, time: now };
+            selectTimer = setTimeout(() => { lastTap = null; latest.current.onSelect(id, point); }, 340);
+          }
+        }
         else if (hit?.object.userData.tourStop !== undefined) latest.current.onTourStop(hit.object.userData.tourStop);
         else if (latest.current.free) {
           const floor = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), point = new THREE.Vector3();
@@ -96,6 +112,11 @@ function Room(props: Props) {
       }
       pointer = null; if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
     };
+    const wheel = (event: WheelEvent) => {
+      event.preventDefault();
+      if (camera instanceof THREE.PerspectiveCamera) { camera.fov = THREE.MathUtils.clamp(camera.fov + event.deltaY * .025, 32, 75); camera.updateProjectionMatrix(); invalidate(); }
+    };
+    canvas.addEventListener('wheel', wheel, { passive: false });
     const cancel = () => { pointer = null; };
     const leave = () => { latest.current.onHover(null); highlight(null); };
     const keydown = (event: KeyboardEvent) => {
@@ -113,6 +134,8 @@ function Room(props: Props) {
     window.addEventListener('keydown', keydown); window.addEventListener('keyup', keyup); window.addEventListener('blur', blur); document.addEventListener('visibilitychange', visibility);
     latest.current.onReady(); invalidate();
     return () => {
+      clearTimeout(selectTimer);
+      canvas.removeEventListener('wheel', wheel);
       canvas.removeEventListener('pointerdown', down); canvas.removeEventListener('pointermove', move); canvas.removeEventListener('pointerup', up);
       canvas.removeEventListener('pointercancel', cancel); canvas.removeEventListener('pointerleave', leave); canvas.removeEventListener('blur', blur); canvas.removeEventListener('webglcontextlost', lost);
       window.removeEventListener('keydown', keydown); window.removeEventListener('keyup', keyup); window.removeEventListener('blur', blur); document.removeEventListener('visibilitychange', visibility);
@@ -122,23 +145,32 @@ function Room(props: Props) {
   useEffect(() => {
     const built = data.current; if (!built) return;
     built.placements.forEach(p => p.object.traverse(object => {
+      if (object instanceof THREE.Mesh && object.material instanceof THREE.MeshBasicMaterial) { object.material.color.set(props.category === 'all' || props.category === p.product.category ? '#ffffff' : '#66685c'); return; }
       if (!(object instanceof THREE.Mesh) || !(object.material instanceof THREE.MeshStandardMaterial) || !object.material.userData.productBody) return;
-      object.material.emissive.set(props.category === 'all' || props.category === p.product.category ? '#77795B' : '#000000'); object.material.emissiveIntensity = .12;
-      object.material.color.set(p.product.color).multiplyScalar(props.category === 'all' || props.category === p.product.category ? 1 : .4);
+      object.material.emissive.set(props.category === 'all' || props.category === p.product.category ? '#77795B' : '#000000'); object.material.emissiveIntensity = 0;
+      object.material.color.set(object.material.userData.baseColor || p.product.color).multiplyScalar(props.category === 'all' || props.category === p.product.category ? 1 : .4);
     })); invalidate();
   }, [props.category, invalidate]);
   useEffect(() => {
     const command = props.command, built = data.current; if (!built) return;
-    if (command.restore && saved.current) {
-      navigate(saved.current.position.clone()); yawGoal.current = saved.current.yaw; pitchGoal.current = saved.current.pitch; saved.current = null;
+    if (command.zoom && camera instanceof THREE.PerspectiveCamera) {
+      camera.fov = THREE.MathUtils.clamp(camera.fov + command.zoom, 32, 75); camera.updateProjectionMatrix(); invalidate();
+    } else if (command.restore && saved.current) {
+      navigate(saved.current.position.clone()); yawGoal.current = saved.current.yaw; pitchGoal.current = saved.current.pitch; saved.current = null; inspectionTarget.current = null;
     } else if (command.productId) {
-      const placement = built.placements.find(p => p.product.id === command.productId); if (!placement) return;
+      const candidates = built.placements.filter(p => p.product.id === command.productId);
+      const anchor = inspectionTarget.current || new THREE.Vector3(0, 1.7, 0);
+      const placement = candidates.reduce<(typeof candidates)[number] | undefined>((best, item) => !best || item.position.distanceToSquared(anchor) < best.position.distanceToSquared(anchor) ? item : best, undefined);
+      if (!placement) return;
       if (!saved.current) saved.current = { position: camera.position.clone(), yaw: yawGoal.current, pitch: pitchGoal.current };
-      const direction = camera.position.clone().sub(placement.position); direction.y = 0; direction.normalize();
-      const dest = placement.position.clone().addScaledVector(direction, 2.7); dest.y = EYE_HEIGHT;
-      navigate(dest, placement.position);
+      const target = command.productPosition ? new THREE.Vector3(...command.productPosition) : placement.position;
+      inspectionTarget.current = target.clone();
+      const direction = camera.position.clone().sub(target); direction.y = 0; direction.normalize();
+      const dest = target.clone().addScaledVector(direction, 2.2); dest.y = EYE_HEIGHT;
+      navigate(dest, target);
     } else if (command.stop !== undefined) {
-      saved.current = null; const stop = TOUR_STOPS[command.stop]; navigate(new THREE.Vector3(...stop.position), new THREE.Vector3(...stop.target));
+      if (camera instanceof THREE.PerspectiveCamera) { camera.fov = 62; camera.updateProjectionMatrix(); }
+      saved.current = null; inspectionTarget.current = null; const stop = TOUR_STOPS[command.stop]; navigate(new THREE.Vector3(...stop.position), new THREE.Vector3(...stop.target));
     } else if (command.move) {
       const dest = camera.position.clone().add(new THREE.Vector3(-Math.sin(yawGoal.current), 0, -Math.cos(yawGoal.current)).multiplyScalar(command.move)); navigate(dest);
     } else if (command.turn) { yawGoal.current += command.turn; invalidate(); }
@@ -146,7 +178,7 @@ function Room(props: Props) {
   useEffect(() => { if (!props.free) keys.current.clear(); }, [props.free]);
   useFrame((_, elapsed) => {
     if (!active.current) return;
-    const dt = Math.min(elapsed, .04), damping = props.reduced ? 1 : 1 - Math.exp(-dt * 5);
+    const dt = Math.min(elapsed, .04), damping = props.reduced ? 1 : 1 - Math.exp(-dt * 3.5);
     const input = keys.current;
     const forward = Number(input.has('w') || input.has('ArrowUp')) - Number(input.has('s') || input.has('ArrowDown'));
     const strafe = Number(input.has('d') || input.has('ArrowRight')) - Number(input.has('a') || input.has('ArrowLeft'));
@@ -172,7 +204,7 @@ export default function VirtualShowroom(props: Props) {
   useEffect(() => { const change = () => setVisible(!document.hidden); document.addEventListener('visibilitychange', change); return () => document.removeEventListener('visibilitychange', change); }, []);
   // Fiber mounts fallback inside <canvas> even when WebGL works. Keep it passive:
   // reporting failure from a fallback effect would close every supported showroom.
-  return <Canvas className="boutique-canvas" camera={{ fov: 62, near: .1, far: 40 }} dpr={props.lowQuality ? 1 : [1, 1.5]} shadows={!props.lowQuality}
+  return <Canvas className="boutique-canvas" camera={{ fov: 62, near: .1, far: 40 }} dpr={props.lowQuality ? [1, 1.25] : [1, 2]} shadows={!props.lowQuality}
     frameloop={visible ? 'demand' : 'never'} gl={{ antialias: !props.lowQuality, powerPreference: 'default' }} onCreated={({ gl }) => { gl.shadowMap.type = THREE.PCFShadowMap; }} fallback={<p>3D requires a browser with WebGL 2 support. Use the product list to browse.</p>}>
     <Room {...props} />
   </Canvas>;

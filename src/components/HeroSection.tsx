@@ -3,7 +3,9 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ChairViewPreset, clampNormalized } from '../utils/heroKinematics';
 import { HeroTypography } from './HeroTypography';
-import { BarberChairScene } from './BarberChairScene';
+import { lazy } from 'react';
+import { DeferredScene } from './DeferredScene';
+const BarberChairScene = lazy(() => import('./BarberChairScene').then(m => ({ default: m.BarberChairScene })));
 import { ScrollIndicator } from './ScrollIndicator';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -262,14 +264,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
         {/* RIGHT / CENTER COLUMN: Interactive 3D Barber Chair Studio */}
         <div className="lg:col-span-6 xl:col-span-7 order-2 relative w-full h-[330px] sm:h-[440px] lg:h-[580px] flex items-center justify-center">
-          <BarberChairScene
+          <DeferredScene><BarberChairScene
             pointerX={pointer.x}
             pointerY={pointer.y}
             scrollProgress={scrollProgress}
             entranceProgress={entranceProgress}
             activePreset={activePreset}
             isMobile={isMobile}
-          />
+          /></DeferredScene>
         </div>
       </div>
 

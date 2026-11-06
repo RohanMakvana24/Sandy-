@@ -22,14 +22,14 @@ test('Phase 9 location copy matches exact specifications', () => {
   assert.equal(LOCATION_SECTION_COPY.footerBrandSub, 'Precision. Style. Confidence.');
 });
 
-test('SALON_LOCATION_CONFIG contains verified Rajkot location and real business fields', () => {
+test('SALON_LOCATION_CONFIG supports Rajkot and optional configured contacts', () => {
   assert.equal(SALON_LOCATION_CONFIG.salonName, "Sandy Men's Salon");
   assert.equal(SALON_LOCATION_CONFIG.city, 'Rajkot');
   assert.equal(SALON_LOCATION_CONFIG.state, 'Gujarat');
   assert.equal(SALON_LOCATION_CONFIG.country, 'India');
   assert.ok(SALON_LOCATION_CONFIG.googleMapsDirectionsUrl.startsWith('https://www.google.com/maps'));
   assert.ok(SALON_LOCATION_CONFIG.googleMapsEmbedUrl.startsWith('https://maps.google.com/maps'));
-  assert.ok(SALON_LOCATION_CONFIG.phone.length >= 10);
+  assert.ok(!SALON_LOCATION_CONFIG.phone || /^\+?91[6-9]\d{9}$/.test(SALON_LOCATION_CONFIG.phone));
 });
 
 test('FOOTER_NAV_LINKS contains all real existing website section links in order', () => {
@@ -53,7 +53,7 @@ test('FOOTER_NAV_LINKS contains all real existing website section links in order
 });
 
 test('getVerifiedContactRows filters and formats verified contact items with proper protocols', () => {
-  const rows = getVerifiedContactRows(SALON_LOCATION_CONFIG);
+  const rows = getVerifiedContactRows({ ...SALON_LOCATION_CONFIG, phone: '+919876543210', displayPhone: '+91 98765 43210', whatsapp: '+919876543210' });
 
   assert.equal(rows.length, 5);
   assert.equal(rows[0].id, 'visit');
@@ -74,12 +74,14 @@ test('getVerifiedContactRows filters and formats verified contact items with pro
 
   assert.equal(rows[4].id, 'hours');
   assert.equal(rows[4].label, 'OPENING HOURS');
-  assert.equal(rows[4].value, 'Monday – Sunday: 10:00 AM – 09:30 PM');
+  assert.equal(rows[4].value, SALON_LOCATION_CONFIG.openingHours);
 });
 
 test('getVerifiedContactRows omits fields gracefully when values are empty', () => {
   const partialConfig = {
     ...SALON_LOCATION_CONFIG,
+    phone: '+919876543210',
+    displayPhone: '+91 98765 43210',
     instagramUrl: '',
     instagramHandle: '',
     whatsapp: '',
